@@ -179,3 +179,6 @@ build/
 
 .envrc
 .npmrc
+index.js
+index.cjs
+index.d.ts
