@@ -1,9 +1,5 @@
-import type { BaseChatModel } from "@langchain/core/language_models/chat_models";
-import {
-  TacticName,
-  type Tactic,
-  type TacticExecution,
-} from "../types/tactics";
+import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
+import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
 
 /**
  * Language Model tactic: uses an LLM to assess prompt injection likelihood.
@@ -19,32 +15,29 @@ import {
  * Must be an instance of BaseChatModel.
  */
 export class LanguageModel implements Tactic {
-  readonly name = TacticName.LanguageModel;
-  readonly defaultThreshold: number;
+  readonly name = TacticName.LanguageModel
+  readonly defaultThreshold: number
 
   constructor(
     threshold: number = 0,
     private readonly llm: BaseChatModel,
     private renderPromptTemplate: (input: string) => string
   ) {
-    this.defaultThreshold = threshold;
-    this.llm = llm;
+    this.defaultThreshold = threshold
+    this.llm = llm
   }
 
-  async execute(
-    input: string,
-    thresholdOverride?: number
-  ): Promise<TacticExecution> {
-    const prompt = this.renderPromptTemplate(input);
+  async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
+    const prompt = this.renderPromptTemplate(input)
     try {
       const result = await this.llm.invoke([
         {
-          role: "human",
+          role: 'human',
           content: prompt,
         },
-      ]);
-      const score = parseFloat(result.text || "0");
-      const threshold = thresholdOverride ?? this.defaultThreshold;
+      ])
+      const score = parseFloat(result.text || '0')
+      const threshold = thresholdOverride ?? this.defaultThreshold
       return {
         score,
         additionalFields: {
@@ -52,10 +45,10 @@ export class LanguageModel implements Tactic {
           threshold,
           isInjection: score >= threshold,
         },
-      };
+      }
     } catch (error) {
-      console.error("Error executing language model:", error);
-      return { score: 0, additionalFields: { error } };
+      console.error('Error executing language model:', error)
+      return { score: 0, additionalFields: { error } }
     }
   }
 }

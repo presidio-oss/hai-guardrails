@@ -1,10 +1,6 @@
-import stringSimilarity from "string-similarity";
-import {
-  TacticName,
-  type Tactic,
-  type TacticExecution,
-} from "../types/tactics";
-import { normalizeString } from "../utils/util";
+import stringSimilarity from 'string-similarity'
+import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
+import { normalizeString } from '../utils/util'
 
 /**
  * Heuristic tactic: fuzzy matching and word overlap with known injection keywords.
@@ -20,54 +16,48 @@ import { normalizeString } from "../utils/util";
  * prompt injection attack. Defaults to 0.
  */
 export class Heuristic implements Tactic {
-  readonly name = TacticName.Heuristic;
-  readonly defaultThreshold: number;
+  readonly name = TacticName.Heuristic
+  readonly defaultThreshold: number
 
-  constructor(threshold: number, private readonly keywords: string[]) {
-    this.defaultThreshold = threshold;
+  constructor(
+    threshold: number,
+    private readonly keywords: string[]
+  ) {
+    this.defaultThreshold = threshold
   }
 
-  async execute(
-    input: string,
-    thresholdOverride?: number
-  ): Promise<TacticExecution> {
-    let highestScore = 0;
-    let bestKeyword = "";
-    let bestSubstring = "";
-    const normalizedInput = normalizeString(input);
+  async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
+    let highestScore = 0
+    let bestKeyword = ''
+    let bestSubstring = ''
+    const normalizedInput = normalizeString(input)
 
     for (const keyword of this.keywords) {
-      const normalizedKeyword = normalizeString(keyword);
-      const keywordParts = normalizedKeyword.split(" ");
-      const keywordLength = keywordParts.length;
-      const inputParts = normalizedInput.split(" ");
+      const normalizedKeyword = normalizeString(keyword)
+      const keywordParts = normalizedKeyword.split(' ')
+      const keywordLength = keywordParts.length
+      const inputParts = normalizedInput.split(' ')
       for (let i = 0; i <= inputParts.length - keywordLength; i++) {
-        const substring = inputParts.slice(i, i + keywordLength).join(" ");
-        const similarityScore = stringSimilarity.compareTwoStrings(
-          normalizedKeyword,
-          substring
-        );
+        const substring = inputParts.slice(i, i + keywordLength).join(' ')
+        const similarityScore = stringSimilarity.compareTwoStrings(normalizedKeyword, substring)
         const matchedWordsCount = keywordParts.filter(
-          (part, index) => substring.split(" ")[index] === part
-        ).length;
-        const maxMatchedWords = 5;
+          (part, index) => substring.split(' ')[index] === part
+        ).length
+        const maxMatchedWords = 5
         const baseScore =
-          matchedWordsCount > 0
-            ? 0.5 + 0.5 * Math.min(matchedWordsCount / maxMatchedWords, 1)
-            : 0;
-        const adjustedScore =
-          baseScore + similarityScore * (1 / (maxMatchedWords * 2));
+          matchedWordsCount > 0 ? 0.5 + 0.5 * Math.min(matchedWordsCount / maxMatchedWords, 1) : 0
+        const adjustedScore = baseScore + similarityScore * (1 / (maxMatchedWords * 2))
         if (adjustedScore > highestScore) {
-          highestScore = adjustedScore;
-          bestKeyword = keyword;
-          bestSubstring = substring;
+          highestScore = adjustedScore
+          bestKeyword = keyword
+          bestSubstring = substring
         }
-        if (highestScore >= 1.0) break;
+        if (highestScore >= 1.0) break
       }
-      if (highestScore >= 1.0) break;
+      if (highestScore >= 1.0) break
     }
 
-    const threshold = thresholdOverride ?? this.defaultThreshold;
+    const threshold = thresholdOverride ?? this.defaultThreshold
     return {
       score: highestScore,
       additionalFields: {
@@ -76,6 +66,6 @@ export class Heuristic implements Tactic {
         threshold,
         isInjection: highestScore >= threshold,
       },
-    };
+    }
   }
 }

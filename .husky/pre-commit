@@ -1,0 +1,2 @@
+# Run prettier
+bun run format

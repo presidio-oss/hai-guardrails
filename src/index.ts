@@ -1,2 +1,2 @@
-export * from "./guards/injection";
-export * from "./guards/leakage";
+export * from './guards/injection'
+export * from './guards/leakage'

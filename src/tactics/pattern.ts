@@ -1,9 +1,5 @@
-import {
-  TacticName,
-  type Tactic,
-  type TacticExecution,
-} from "../types/tactics";
-import { normalizeString } from "../utils/util";
+import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
+import { normalizeString } from '../utils/util'
 
 /**
  * Pattern tactic: regular expression matching against suspicious prompt patterns.
@@ -18,30 +14,30 @@ import { normalizeString } from "../utils/util";
  * prompt injection attack. Defaults to 0.
  */
 export class Pattern implements Tactic {
-  readonly name = TacticName.Pattern;
-  readonly defaultThreshold: number;
+  readonly name = TacticName.Pattern
+  readonly defaultThreshold: number
 
-  constructor(threshold: number = 0, private readonly patterns: RegExp[]) {
-    this.defaultThreshold = threshold;
+  constructor(
+    threshold: number = 0,
+    private readonly patterns: RegExp[]
+  ) {
+    this.defaultThreshold = threshold
   }
 
-  async execute(
-    input: string,
-    thresholdOverride?: number
-  ): Promise<TacticExecution> {
-    const normalizedInput = normalizeString(input);
+  async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
+    const normalizedInput = normalizeString(input)
 
-    let matchedPattern: RegExp | null = null;
+    let matchedPattern: RegExp | null = null
     const result = this.patterns.some((pattern) => {
       if (pattern.test(normalizedInput)) {
-        matchedPattern = pattern;
-        return true;
+        matchedPattern = pattern
+        return true
       }
-      return false;
-    });
+      return false
+    })
 
-    const score = result ? 1 : 0;
-    const threshold = thresholdOverride ?? this.defaultThreshold;
+    const score = result ? 1 : 0
+    const threshold = thresholdOverride ?? this.defaultThreshold
 
     return {
       score,
@@ -50,6 +46,6 @@ export class Pattern implements Tactic {
         threshold,
         isInjection: score >= threshold,
       },
-    };
+    }
   }
 }
