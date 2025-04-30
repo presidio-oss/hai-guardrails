@@ -1,0 +1,18 @@
+{
+  "name": "guards",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/string-similarity": "^4.0.2"
+  },
+  "peerDependencies": {
+    "@langchain/core": "^0.3.49",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.41",
+    "@langchain/google-genai": "^0.2.5",
+    "string-similarity": "^4.0.4"
+  }
+}
