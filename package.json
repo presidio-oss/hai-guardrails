@@ -1,5 +1,5 @@
 {
-  "name": "guards",
+  "name": "@vj-presidio/guards",
   "version": "1.0.0",
   "description": "A set of guards for LLM Apps",
   "main": "./dist/index.cjs",
