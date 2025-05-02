@@ -27,7 +27,16 @@
     "presidio",
     "guardrails",
     "llm",
-    "hai"
+    "hai",
+    "redaction",
+    "security",
+    "defence",
+    "governance",
+    "guards",
+    "human-ai",
+    "prompt-injection",
+    "llm-guardrails",
+    "halucination"
   ],
   "author": "Presidio",
   "scripts": {

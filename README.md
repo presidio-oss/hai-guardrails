@@ -57,6 +57,7 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 ### Quality Guards
 
 - [ ] Context Guard - Maintain context integrity
+- [ ] Hallucination Guard - Prevent AI from making things up
 - Contributions are welcome! send a PR!
 
 ### Provider Support
