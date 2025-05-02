@@ -1,8 +1,11 @@
 import { BaseChatModel } from '@langchain/core/language_models/chat_models'
-import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
-import type { BaseMessageLike } from '@langchain/core/messages'
-
-type LLM = BaseChatModel | ((messages: BaseMessageLike[]) => Promise<string>)
+import {
+  TacticName,
+  type LLM,
+  type LLMMessages,
+  type Tactic,
+  type TacticExecution,
+} from '../types/tactics'
 
 /**
  * Language Model tactic: uses an LLM to assess prompt injection likelihood.
@@ -36,10 +39,14 @@ export class LanguageModel implements Tactic {
     try {
       const messages = [
         {
-          role: 'human',
+          role: 'system',
           content: prompt,
         },
-      ]
+        {
+          role: 'human',
+          content: input,
+        },
+      ] satisfies LLMMessages
       if (this.llm instanceof BaseChatModel) {
         const result = await this.llm.invoke(messages)
         score = parseFloat(result.text || '0')

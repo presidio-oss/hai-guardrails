@@ -1,7 +1,7 @@
-import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import { Heuristic } from '../tactics/heuristic'
 import { Pattern } from '../tactics/pattern'
 import { LanguageModel } from '../tactics/language-model'
+import type { LLM } from '../types/tactics'
 
 function generateInjectionKeywords(): string[] {
   const verbs = [
@@ -137,5 +137,5 @@ export function RenderPromptForInjectionDetection(userInput: string): string {
 
 export const heuristicInjectionTactic = new Heuristic(0.5, InjectionKeywords)
 export const patternInjectionTactic = new Pattern(0.5, InjectionPatterns)
-export const languageModelInjectionTactic = (llm: BaseChatModel) =>
+export const languageModelInjectionTactic = (llm: LLM) =>
   new LanguageModel(0.5, llm, RenderPromptForInjectionDetection)
