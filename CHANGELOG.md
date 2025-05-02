@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.5.6 (2025-05-02)</small>
+
+* docs: add BYOP example and architecture diagram ([1549acb](https://github.com/presidio-oss/hai-guardrails/commit/1549acb))
+
 ## <small>1.5.5 (2025-05-02)</small>
 
 * docs: add bias detection guard and rename package ([e5c81f8](https://github.com/presidio-oss/hai-guardrails/commit/e5c81f8))
