@@ -54,6 +54,7 @@ export class LanguageModel implements Tactic {
       } else {
         const result = await this.llm(messages)
         score = parseFloat(result || '0')
+        resultText = result
       }
       const threshold = thresholdOverride ?? this.defaultThreshold
       return {

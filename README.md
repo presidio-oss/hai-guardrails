@@ -1,5 +1,23 @@
 # hai-guardrails
 
+## Architecture
+
+```mermaid
+graph TD
+    A[User Input] --> B[Guard System]
+    B --> C[Guard 1]
+    B --> D[Guard 2]
+    B --> E[Guard 3]
+    C --> F[Detection Methods]
+    D --> F
+    E --> F
+    F --> G[Score]
+    G --> H{Threshold Check}
+    H -->|Above| I[Block Request]
+    H -->|Below| J[Allow Request]
+    J --> K[LLM]
+```
+
 ## Vision
 
 Our vision is to create a comprehensive Guardrails Framework that:
@@ -135,6 +153,10 @@ const language = await languageModelInjectionTactic(geminiLLM).execute(input)
 //   }
 // }
 ```
+
+### Bring Your Own Provider (BYOP) Example
+
+For a complete example of how to implement your own LLM provider, see [examples/byop.ts](examples/byop.ts).
 
 More examples can be found in the [examples](./examples) directory.
 
