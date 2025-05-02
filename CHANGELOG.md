@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.5.2 (2025-05-02)</small>
+
+* docs: enhance project setup and contribution guidelines ([6e74616](https://github.com/presidio-oss/hai-guardrails/commit/6e74616))
+
 ## <small>1.5.1 (2025-05-02)</small>
 
 * docs: add vision, overview, and roadmap to README ([f8fc089](https://github.com/presidio-oss/hai-guardrails/commit/f8fc089))
