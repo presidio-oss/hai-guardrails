@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 (2025-05-02)
+
+* feat: allow function as LLM for language model tactic ([a6d2477](https://github.com/vj-presidio/guard/commit/a6d2477))
+
 ## <small>1.1.1 (2025-04-30)</small>
 
 * fix: add .prettierignore to exclude CHANGELOG.md ([1dcc4df](https://github.com/vj-presidio/guard/commit/1dcc4df))
