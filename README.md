@@ -1,4 +1,4 @@
-# @presidio-dev/hai-guardrails
+# hai-guardrails
 
 ## Vision
 
@@ -48,6 +48,7 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 - [ ] Profanity Guard - Filter inappropriate language
 - [ ] Copyright Guard - Prevent copyright violations
 - [ ] Adult Content Guard - Block adult content
+- [ ] Bias Detection Guard - Prevent bias based on age, gender, sex, etc.
 
 ### Compliance Guards
 
