@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 (2025-05-02)
+
+* feat: rename package to @presidio-dev/hai-guardrails ([bb8e742](https://github.com/vj-presidio/guard/commit/bb8e742))
+
 ## <small>1.3.2 (2025-05-02)</small>
 
 * fix: trim input in language model tactic ([c5474fb](https://github.com/vj-presidio/guard/commit/c5474fb))
