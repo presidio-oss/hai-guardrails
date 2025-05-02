@@ -1,5 +1,8 @@
-import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
+import { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
+import type { BaseMessageLike } from '@langchain/core/messages'
+
+type LLM = BaseChatModel | ((messages: BaseMessageLike[]) => Promise<string>)
 
 /**
  * Language Model tactic: uses an LLM to assess prompt injection likelihood.
@@ -20,28 +23,36 @@ export class LanguageModel implements Tactic {
 
   constructor(
     threshold: number = 0,
-    private readonly llm: BaseChatModel,
+    private readonly llm: LLM,
     private renderPromptTemplate: (input: string) => string
   ) {
     this.defaultThreshold = threshold
-    this.llm = llm
   }
 
   async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
     const prompt = this.renderPromptTemplate(input)
+    let score = 0.0
+    let resultText = ''
     try {
-      const result = await this.llm.invoke([
+      const messages = [
         {
           role: 'human',
           content: prompt,
         },
-      ])
-      const score = parseFloat(result.text || '0')
+      ]
+      if (this.llm instanceof BaseChatModel) {
+        const result = await this.llm.invoke(messages)
+        score = parseFloat(result.text || '0')
+        resultText = result.text
+      } else {
+        const result = await this.llm(messages)
+        score = parseFloat(result || '0')
+      }
       const threshold = thresholdOverride ?? this.defaultThreshold
       return {
         score,
         additionalFields: {
-          modelResponse: result.text,
+          modelResponse: resultText,
           threshold,
           isInjection: score >= threshold,
         },
