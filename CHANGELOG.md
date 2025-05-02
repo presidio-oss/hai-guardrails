@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.5.3 (2025-05-02)</small>
+
+* docs: complete leakage and injection guards, add provider support ([73ca028](https://github.com/presidio-oss/hai-guardrails/commit/73ca028))
+
 ## <small>1.5.2 (2025-05-02)</small>
 
 * docs: enhance project setup and contribution guidelines ([6e74616](https://github.com/presidio-oss/hai-guardrails/commit/6e74616))
