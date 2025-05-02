@@ -1,5 +1,5 @@
 {
-  "name": "@vj-presidio/guards",
+  "name": "@presidio-dev/hai-guardrails",
   "version": "1.3.2",
   "description": "A set of guards for LLM Apps",
   "main": "./dist/index.cjs",
