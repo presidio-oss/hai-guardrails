@@ -35,6 +35,8 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 
 ### Security Guards
 
+- [x] Injection Guard - Prevent prompt injection attacks
+- [x] Leakage Guard - Prevent prompt leakage
 - [ ] PII Detection Guard - Protect against personal information leakage
 - [ ] Sensitive Data Guard - Prevent sensitive data exposure
 - [ ] Credential Protection Guard - Block credential leakage
@@ -56,8 +58,10 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 - [ ] Context Guard - Maintain context integrity
 - Contributions are welcome! send a PR!
 
-### Prvider Support
+### Provider Support
 
+- [x] Langchain.js SDK Support
+- [x] BYOP (Bring Your Own Provider) with callbacks
 - [ ] Add support for more LLM provider SDKs (OpenAI, Anthropic, etc.)
 
 ## Features
