@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.3.1 (2025-05-02)</small>
+
+* fix: simplify LLMMessages type definition ([c8e34cc](https://github.com/vj-presidio/guard/commit/c8e34cc))
+
 ## 1.3.0 (2025-05-02)
 
 * feat: allow function as LLM for language model tactic ([b56eb60](https://github.com/vj-presidio/guard/commit/b56eb60))
