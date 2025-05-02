@@ -33,7 +33,7 @@ export class LanguageModel implements Tactic {
   }
 
   async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
-    const prompt = this.renderPromptTemplate(input)
+    const prompt = this.renderPromptTemplate(input.trim())
     let score = 0.0
     let resultText = ''
     try {
@@ -44,7 +44,7 @@ export class LanguageModel implements Tactic {
         },
         {
           role: 'human',
-          content: input,
+          content: input.trim(),
         },
       ] satisfies LLMMessages
       if (this.llm instanceof BaseChatModel) {
