@@ -1,19 +1,38 @@
 # @presidio-dev/hai-guardrails
 
-A TypeScript library providing a set of guards for LLM (Large Language Model) applications. This library helps implement safety and control mechanisms in AI applications.
+A TypeScript library providing a set of guards for LLM (Large Language Model) applications. This library helps implement safety and control mechanisms in AI applications to prevent prompt injection and information leakage.
+
+## Available Guards
+
+### 1. Injection Guard
+
+Prevents prompt injection attacks by detecting and blocking attempts to manipulate the AI's behavior. It uses three detection tactics:
+
+- **Heuristic Detection**: Identifies suspicious keywords and phrases that indicate injection attempts
+- **Pattern Matching**: Detects specific patterns commonly used in injection attacks
+- **Language Model Detection**: Uses an LLM to evaluate the likelihood of injection attempts
+
+### 2. Leakage Guard
+
+Prevents information leakage by detecting and blocking attempts to extract system prompts, instructions, or sensitive information. It uses three detection tactics:
+
+- **Heuristic Detection**: Identifies keywords related to system information extraction
+- **Pattern Matching**: Detects patterns commonly used in leakage attempts
+- **Language Model Detection**: Uses an LLM to evaluate the likelihood of leakage attempts
 
 ## Features
 
 - TypeScript-first development with proper type definitions
 - Modern JavaScript module support (ESM and CommonJS)
 - Built with Bun for faster builds and development
-- Commitlint and Husky for consistent commit messages
-- Prettier for code formatting
+- Multiple detection tactics (heuristic, pattern matching, language model)
+- Configurable detection thresholds
+- Example implementations for common use cases
 
 ## Installation
 
 ```bash
-bun add @presidio-dev/hai-guardrails
+npm install @presidio-dev/hai-guardrails
 ```
 
 ## Requirements
