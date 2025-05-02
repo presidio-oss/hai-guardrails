@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 (2025-05-02)
+
+* feat: allow function as LLM for language model tactic ([b56eb60](https://github.com/vj-presidio/guard/commit/b56eb60))
+
 ## 1.2.0 (2025-05-02)
 
 * feat: allow function as LLM for language model tactic ([a6d2477](https://github.com/vj-presidio/guard/commit/a6d2477))
