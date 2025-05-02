@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>1.5.4 (2025-05-02)</small>
+
+* chore: add issue templates and dependabot configuration ([5451e9e](https://github.com/presidio-oss/hai-guardrails/commit/5451e9e))
+
 ## <small>1.5.3 (2025-05-02)</small>
 
 * docs: complete leakage and injection guards, add provider support ([73ca028](https://github.com/presidio-oss/hai-guardrails/commit/73ca028))
