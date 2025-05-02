@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>1.5.5 (2025-05-02)</small>
+
+* docs: add bias detection guard and rename package ([e5c81f8](https://github.com/presidio-oss/hai-guardrails/commit/e5c81f8))
+* docs: add hallucination guard and update keywords ([d9a3f01](https://github.com/presidio-oss/hai-guardrails/commit/d9a3f01))
+
 ## <small>1.5.4 (2025-05-02)</small>
 
 * chore: add issue templates and dependabot configuration ([5451e9e](https://github.com/presidio-oss/hai-guardrails/commit/5451e9e))
