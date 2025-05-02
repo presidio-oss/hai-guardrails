@@ -19,6 +19,17 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/presidio-oss/hai-guardrails.git"
+  },
+  "keywords": [
+    "presidio",
+    "guardrails",
+    "llm",
+    "hai"
+  ],
+  "author": "Presidio",
   "scripts": {
     "build": "bun run build.ts",
     "prepublishOnly": "bun run build",

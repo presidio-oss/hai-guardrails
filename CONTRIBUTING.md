@@ -6,6 +6,10 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
+## Security
+
+If you believe you've found a security vulnerability, please follow our [Security Policy](SECURITY.md) for responsible disclosure. Do not disclose security vulnerabilities publicly or through GitHub issues. Instead, email the details to [hai-feedback@presidio.com](mailto:hai-feedback@presidio.com).
+
 ## How to Contribute
 
 ### Reporting Bugs

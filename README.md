@@ -142,6 +142,10 @@ More examples can be found in the [examples](./examples) directory.
 
 ## Development
 
+For detailed development setup instructions, please refer to our [Development Setup Guide](docs/dev/02-development-setup.md).
+
+## Quick Start
+
 1. Install dependencies:
 
    ```bash
