@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>1.5.1 (2025-05-02)</small>
+
+* docs: add vision, overview, and roadmap to README ([f8fc089](https://github.com/presidio-oss/hai-guardrails/commit/f8fc089))
+* docs: enhance README with usage examples and detection details ([c75a01a](https://github.com/presidio-oss/hai-guardrails/commit/c75a01a))
+
 ## 1.5.0 (2025-05-02)
 
 * docs: enhance README with guard descriptions and installation instructions ([f7a5655](https://github.com/presidio-oss/hai-guardrails/commit/f7a5655))
