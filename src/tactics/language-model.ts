@@ -1,11 +1,6 @@
 import { BaseChatModel } from '@langchain/core/language_models/chat_models'
-import {
-  TacticName,
-  type LLM,
-  type LLMMessages,
-  type Tactic,
-  type TacticExecution,
-} from '../types/tactics'
+import { TacticName, type LLMMessages, type Tactic, type TacticExecution } from '../types/tactics'
+import type { LLM } from '../types/types'
 
 /**
  * Language Model tactic: uses an LLM to assess prompt injection likelihood.
@@ -53,8 +48,8 @@ export class LanguageModel implements Tactic {
         resultText = result.text
       } else {
         const result = await this.llm(messages)
-        score = parseFloat(result || '0')
-        resultText = result
+        score = parseFloat(result[result.length - 1]?.content || '0')
+        resultText = result[result.length - 1]?.content || ''
       }
       const threshold = thresholdOverride ?? this.defaultThreshold
       return {

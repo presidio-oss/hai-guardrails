@@ -22,4 +22,4 @@ export type LLMMessages = {
   content: string
 }[]
 
-export type LLM = BaseChatModel | ((messages: LLMMessages) => Promise<string>)
+export type LLM = BaseChatModel | ((messages: LLMMessages) => Promise<LLMMessages>)
