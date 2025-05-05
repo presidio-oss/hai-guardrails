@@ -49,15 +49,23 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 - **Pattern Matching**: Detects patterns commonly used in leakage attempts
 - **Language Model Detection**: Uses an LLM to evaluate the likelihood of leakage attempts
 
+### 3. PII Guard
+
+Detects and redacts personally identifiable information (PII) such as emails, phone numbers, SSNs, credit cards, and IP addresses from user messages. Uses regular expressions for detection and replacement, it's configurable and extensible.
+
+### 4. Secret Guard
+
+Detects and redacts secrets such as API keys, access tokens, credentials, and other sensitive patterns using extensible regex patterns and entropy checks to avoid false positives. Configurable and extensible.
+
 ## Roadmap
 
 ### Security Guards
 
 - [x] Injection Guard - Prevent prompt injection attacks
 - [x] Leakage Guard - Prevent prompt leakage
-- [ ] PII Detection Guard - Protect against personal information leakage
+- [x] PII Guard - Protect against personal information leakage
 - [ ] Sensitive Data Guard - Prevent sensitive data exposure
-- [ ] Credential Protection Guard - Block credential leakage
+- [x] Credential Protection Guard - Block credential leakage
 
 ### Content Guards
 
