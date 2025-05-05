@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.6.0 (2025-05-05)
+
+* docs: add PII and Secret guard examples ([db1317b](https://github.com/presidio-oss/hai-guardrails/commit/db1317b))
+* docs: update injection guard examples and add BYOP example ([fcbf68e](https://github.com/presidio-oss/hai-guardrails/commit/fcbf68e))
+* docs: update README to reflect PII and Secret Guard implementation ([ae4ea81](https://github.com/presidio-oss/hai-guardrails/commit/ae4ea81))
+* fix: export new guard modules and update existing guard module exports ([60c1fb2](https://github.com/presidio-oss/hai-guardrails/commit/60c1fb2))
+* feat: implement Guardrails Engine and pii & secret guard ([7188f69](https://github.com/presidio-oss/hai-guardrails/commit/7188f69))
+* feat: implement Guardrails Engine and pii & secret guard ([41f9873](https://github.com/presidio-oss/hai-guardrails/commit/41f9873))
+* chore(deps-dev): bump @types/bun from 1.2.11 to 1.2.12 ([6559408](https://github.com/presidio-oss/hai-guardrails/commit/6559408))
+* chore(deps-dev): bump release-it from 19.0.1 to 19.0.2 ([09e817c](https://github.com/presidio-oss/hai-guardrails/commit/09e817c))
+* ci: update CI/CD workflow to trigger on release branch ([f82dda8](https://github.com/presidio-oss/hai-guardrails/commit/f82dda8))
+* ci: update CI/CD workflow to trigger on release branch ([539c173](https://github.com/presidio-oss/hai-guardrails/commit/539c173))
+
 ## <small>1.5.6 (2025-05-02)</small>
 
 * docs: add BYOP example and architecture diagram ([1549acb](https://github.com/presidio-oss/hai-guardrails/commit/1549acb))
