@@ -21,5 +21,3 @@ export type LLMMessages = {
   role: string
   content: string
 }[]
-
-export type LLM = BaseChatModel | ((messages: LLMMessages) => Promise<LLMMessages>)
