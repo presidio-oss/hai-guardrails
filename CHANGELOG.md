@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.6.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.0...v1.6.1) (2025-05-07)
+
 ## 1.6.0 (2025-05-05)
 
 * docs: add PII and Secret guard examples ([db1317b](https://github.com/presidio-oss/hai-guardrails/commit/db1317b))
