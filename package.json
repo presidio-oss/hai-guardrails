@@ -1,74 +1,74 @@
 {
-  "name": "@presidio-dev/hai-guardrails",
-  "version": "1.6.0",
-  "description": "A set of guards for LLM Apps",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "type": "module",
-  "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.js",
-    "require": "./dist/index.cjs"
-  },
-  "license": "MIT",
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/presidio-oss/hai-guardrails.git"
-  },
-  "keywords": [
-    "presidio",
-    "guardrails",
-    "llm",
-    "hai",
-    "redaction",
-    "security",
-    "defence",
-    "governance",
-    "guards",
-    "human-ai",
-    "prompt-injection",
-    "llm-guardrails",
-    "halucination"
-  ],
-  "author": "Presidio",
-  "scripts": {
-    "build": "bun run build.ts",
-    "prepublishOnly": "bun run build",
-    "prepare": "husky",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "release": "release-it",
-    "release:dry-run": "release-it --dry-run",
-    "release:ci": "release-it --ci"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "bun": ">=1.0.0"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
-    "@commitlint/config-conventional": "^19.8.0",
-    "@release-it/conventional-changelog": "^10.0.1",
-    "@types/bun": "^1.2.11",
-    "@types/string-similarity": "^4.0.2",
-    "bun-plugin-dts": "^0.3.0",
-    "husky": "^9.1.7",
-    "prettier": "^3.5.3",
-    "release-it": "^19.0.1"
-  },
-  "peerDependencies": {
-    "@langchain/core": "^0.3.49",
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "string-similarity": "^4.0.4"
-  }
+	"name": "@presidio-dev/hai-guardrails",
+	"version": "1.6.0",
+	"description": "A set of guards for LLM Apps",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"type": "module",
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.cjs"
+	},
+	"license": "MIT",
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/presidio-oss/hai-guardrails.git"
+	},
+	"keywords": [
+		"presidio",
+		"guardrails",
+		"llm",
+		"hai",
+		"redaction",
+		"security",
+		"defence",
+		"governance",
+		"guards",
+		"human-ai",
+		"prompt-injection",
+		"llm-guardrails",
+		"halucination"
+	],
+	"author": "Presidio",
+	"scripts": {
+		"build": "bun run build.ts",
+		"prepublishOnly": "bun run build",
+		"prepare": "husky",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"release": "release-it",
+		"release:dry-run": "release-it --dry-run",
+		"release:ci": "release-it --ci"
+	},
+	"engines": {
+		"node": ">=16.0.0",
+		"bun": ">=1.0.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.8.0",
+		"@commitlint/config-conventional": "^19.8.0",
+		"@release-it/conventional-changelog": "^10.0.1",
+		"@types/bun": "^1.2.11",
+		"@types/string-similarity": "^4.0.2",
+		"bun-plugin-dts": "^0.3.0",
+		"husky": "^9.1.7",
+		"prettier": "^3.5.3",
+		"release-it": "^19.0.1"
+	},
+	"peerDependencies": {
+		"@langchain/core": "^0.3.49",
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"string-similarity": "^4.0.4"
+	}
 }

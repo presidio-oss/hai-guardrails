@@ -1,0 +1,17 @@
+{
+	"name": "langchain-chat",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@langchain/core": "^0.3.53",
+		"@langchain/google-genai": "^0.2.6",
+		"@presidio-dev/hai-guardrails": "latest"
+	}
+}

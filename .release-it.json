@@ -1,48 +1,34 @@
 {
-  "$schema": "https://raw.githubusercontent.com/release-it/release-it/refs/heads/main/schema/release-it.json",
-  "git": {
-    "push": true,
-    "tag": true,
-    "commitMessage": "chore: release v${version} [skip ci]",
-    "tagName": "v${version}",
-    "commit": true,
-    "requireCleanWorkingDir": false,
-    "addUntrackedFiles": true
-  },
-  "github": {
-    "release": false,
-    "makeLatest": true,
-    "assets": ["build/*"],
-    "comments": {
-      "issue": ":rocket: _This issue has been resolved in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
-      "pr": ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
-      "submit": true
-    }
-  },
-  "npm": {
-    "publish": true,
-    "skipChecks": true,
-    "allowSameVersion": true
-  },
-  "plugins": {
-    "@release-it/conventional-changelog": {
-      "infile": "CHANGELOG.md",
-      "preset": {
-        "name": "conventionalcommits",
-        "type": [
-          {
-            "type": "feat",
-            "section": "Features"
-          },
-          {
-            "type": "fix",
-            "section": "Bug Fixes"
-          }
-        ]
-      }
-    }
-  },
-  "hooks": {
-    "after:release": "echo Successfully released ${name} v${version} to npm and GitHub with binaries."
-  }
+	"$schema": "https://raw.githubusercontent.com/release-it/release-it/refs/heads/main/schema/release-it.json",
+	"git": {
+		"push": true,
+		"tag": true,
+		"commitMessage": "chore: release v${version} [skip ci]",
+		"tagName": "v${version}",
+		"commit": true,
+		"requireCleanWorkingDir": false,
+		"addUntrackedFiles": true
+	},
+	"github": {
+		"release": false,
+		"makeLatest": true,
+		"assets": ["build/*"],
+		"comments": {
+			"issue": ":rocket: _This issue has been resolved in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
+			"pr": ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
+			"submit": true
+		}
+	},
+	"npm": {
+		"publish": true,
+		"skipChecks": true,
+		"allowSameVersion": true
+	},
+	"plugins": {
+		"@release-it/conventional-changelog": {
+			"infile": "CHANGELOG.md",
+			"preset": "angular",
+			"types": ["feat", "fix"]
+		}
+	}
 }
