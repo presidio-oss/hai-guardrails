@@ -1,3 +1,3 @@
-export * from './heuristic'
-export * from './language-model'
-export * from './pattern'
+export * from './heuristic.tactic'
+export * from './language-model.tactic'
+export * from './pattern.tactic'
