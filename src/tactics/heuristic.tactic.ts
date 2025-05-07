@@ -1,6 +1,6 @@
 import stringSimilarity from 'string-similarity'
-import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
-import { normalizeString } from '../utils/util'
+import { TacticName, type Tactic, type TacticExecution } from '@hai-guardrails/types'
+import { normalizeString } from '@hai-guardrails/utils/util'
 
 /**
  * Heuristic tactic: fuzzy matching and word overlap with known injection keywords.

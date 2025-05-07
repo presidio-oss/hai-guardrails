@@ -1,6 +1,6 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { GuardrailsEngine } from '../src/engine'
-import { LangChainChatGuardrails } from '../src/provider/langchain'
+import { LangChainChatGuardrails } from '../src/bridge/langchain.bridge'
 import { makePIIGuard, makeSecretGuard } from '@hai-guardrails/guards'
 
 async function main() {

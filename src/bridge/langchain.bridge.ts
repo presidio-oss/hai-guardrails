@@ -1,6 +1,9 @@
 import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
-import type { GuardrailsEngine } from '../engine'
-import { convertToLLMMessages, updateMessagesFromLLMMessages } from '../utils/util'
+import type { GuardrailsEngine } from '@hai-guardrails/engine'
+import {
+	convertToLLMMessages,
+	updateMessagesFromLLMMessages,
+} from '@hai-guardrails/utils/langchain.util'
 
 type ProxyHandler<T extends BaseChatModel> = {
 	[K in keyof T]?: T[K] extends (...args: infer Args) => infer Return

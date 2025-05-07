@@ -1,6 +1,11 @@
 import { BaseChatModel } from '@langchain/core/language_models/chat_models'
-import { TacticName, type LLMMessages, type Tactic, type TacticExecution } from '../types/tactics'
-import type { LLM } from '../types/types'
+import {
+	TacticName,
+	type LLMMessages,
+	type Tactic,
+	type TacticExecution,
+} from '@hai-guardrails/types'
+import type { LLM } from '@hai-guardrails/types'
 
 /**
  * Language Model tactic: uses an LLM to assess prompt injection likelihood.

@@ -1,5 +1,5 @@
-import { TacticName, type Tactic, type TacticExecution } from '../types/tactics'
-import { normalizeString } from '../utils/util'
+import { TacticName, type Tactic, type TacticExecution } from '@hai-guardrails/types'
+import { normalizeString } from '@hai-guardrails/utils/util'
 
 /**
  * Pattern tactic: regular expression matching against suspicious prompt patterns.

@@ -5,7 +5,7 @@ import type {
 	LLMMessage,
 	MakeGuardConfig,
 	MessageType,
-} from '../types/types'
+} from '@hai-guardrails/types'
 
 function selectMessages(messages: LLMMessage[], opts: GuardOptions = {}): LLMMessage[] {
 	const allCandidates = messages.map((msg) => ({ ...msg, inScope: false }))

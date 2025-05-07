@@ -202,7 +202,7 @@ You can use any LLM provider that matches the signature `(messages: LLMMessage[]
 
 ```typescript
 import { makeInjectionGuard, GuardrailsEngine } from '@presidio-dev/hai-guardrails'
-import type { LLMMessage } from '@presidio-dev/hai-guardrails/types/types'
+import type { LLMMessage } from '@presidio-dev/hai-guardrails/types'
 
 // Example: Custom LLM provider
 const customLLMProvider = async (messages: LLMMessage[]): Promise<LLMMessage[]> => {

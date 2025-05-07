@@ -1,8 +1,8 @@
-import type { Guard, GuardOptions, LLM } from '../types/types'
-import { makeGuard } from './make'
-import { Heuristic } from '../tactics/heuristic'
-import { Pattern } from '../tactics/pattern'
-import { LanguageModel } from '../tactics/language-model'
+import type { Guard, GuardOptions, LLM } from '@hai-guardrails/types'
+import { makeGuard } from '@hai-guardrails/guards'
+import { Heuristic } from '@hai-guardrails/tactics'
+import { Pattern } from '@hai-guardrails/tactics'
+import { LanguageModel } from '@hai-guardrails/tactics'
 
 function generateInjectionKeywords(): string[] {
 	const verbs = [

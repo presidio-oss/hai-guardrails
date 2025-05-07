@@ -1,5 +1,5 @@
-import type { Guard, GuardOptions } from '../types/types'
-import { makeGuard } from './make'
+import type { Guard, GuardOptions } from '@hai-guardrails/types'
+import { makeGuard } from '@hai-guardrails/guards'
 
 type PIIRegex = {
 	id: string

@@ -1,4 +1,4 @@
-import type { GuardrailsChainOptions, GuardResult, LLMMessage } from '../types/types'
+import type { GuardrailsChainOptions, GuardResult, LLMMessage } from '@hai-guardrails/types'
 
 export type GuardrailsEngineResult = {
 	messages: LLMMessage[]
