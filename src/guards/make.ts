@@ -27,6 +27,7 @@ export function selectMessages(messages: LLMMessage[], options: GuardOptions = {
 	// Identify indices of messages that match the specified roles
 	const matchingIndices = messages
 		.map((msg, idx) => ({ msg, idx }))
+		.filter(({ msg }) => msg.content)
 		.filter(({ msg }) => roles.length === 0 || roles.includes(msg.role as MessageType))
 		.map(({ idx }) => idx)
 
