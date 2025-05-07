@@ -76,70 +76,48 @@ export function makeLeakageGuard(
 		name: 'Leakage Guard',
 		description: 'Detects and prevents prompt leakage attempts',
 		implementation: async (input, msg, config, idx, llm) => {
-			const common = {
+			if (!msg.inScope)
+				return {
+					guardId: config.id,
+					guardName: config.name,
+					message: msg,
+					index: idx,
+					passed: true,
+					reason: 'Message is not in scope',
+				}
+
+			const llmInstance = opts.llm ?? config.llm ?? llm
+			const tactics = {
+				heuristic: async () => heuristicLeakingTactic.execute(input),
+				pattern: async () => patternLeakingTactic.execute(input),
+				'language-model': async () => {
+					if (!llmInstance)
+						return {
+							score: 0,
+							additionalFields: {},
+						}
+					return languageModelLeakingTactic(llmInstance).execute(input)
+				},
+			}
+
+			const result =
+				extra.mode in tactics ? await tactics[extra.mode]() : { score: 0, additionalFields: {} }
+			return {
 				guardId: config.id,
 				guardName: config.name,
 				message: msg,
 				index: idx,
-				passed: true,
-				reason: 'No Leaking detected',
-			}
-
-			if (!msg.inScope) {
-				return {
-					...common,
-					passed: true,
-					reason: 'Message is not in scope',
-				}
-			}
-
-			switch (extra.mode) {
-				case 'heuristic':
-					const heuristicResult = await heuristicLeakingTactic.execute(input)
-					return {
-						...common,
-						passed: heuristicResult.score <= extra.threshold,
-						reason: 'Possible Leakage detected',
-						additionalFields: {
-							...heuristicResult.additionalFields,
-							score: heuristicResult.score,
-							threshold: extra.threshold,
-						},
-					}
-				case 'pattern':
-					const patternResult = await patternLeakingTactic.execute(input)
-					return {
-						...common,
-						passed: patternResult.score <= extra.threshold,
-						reason: 'Possible Leakage detected',
-						additionalFields: {
-							...patternResult.additionalFields,
-							score: patternResult.score,
-							threshold: extra.threshold,
-						},
-					}
-				case 'language-model':
-					llm = llm || config.llm
-					if (!llm) {
-						return {
-							...common,
-							passed: extra.failOnError === true,
-							reason: 'Please provide a language model or change the mode to heuristic or pattern',
-						}
-					}
-					const languageModelResult = await languageModelLeakingTactic(llm).execute(input)
-					return {
-						...common,
-						passed: languageModelResult.score <= extra.threshold,
-						reason: 'Possible Leakage detected',
-						additionalFields: {
-							...languageModelResult.additionalFields,
-							score: languageModelResult.score,
-							threshold: extra.threshold,
-						},
-					}
-				default:
-					return common
+				passed: result.score < extra.threshold,
+				reason: !llmInstance
+					? 'Please provide a language model or change the mode to heuristic or pattern'
+					: result.score < extra.threshold
+						? 'No Leakage detected'
+						: 'Possible Leakage detected',
+				additionalFields: {
+					...result.additionalFields,
+					score: result.score,
+					threshold: extra.threshold,
+				},
 			}
 		},
 	})

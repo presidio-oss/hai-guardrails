@@ -8,55 +8,50 @@ import {
 	type MessageType,
 } from '@hai-guardrails/types'
 
-function selectMessages(messages: LLMMessage[], opts: GuardOptions = {}): LLMMessage[] {
-	const allCandidates = messages.map((msg) => ({ ...msg, inScope: false }))
+/**
+ * Selects messages based on specified roles, selection type, and optional predicate.
+ *
+ * @param messages - Array of messages to filter.
+ * @param options - Options to determine selection criteria.
+ * @returns Array of messages with `inScope` property updated.
+ */
+export function selectMessages(messages: LLMMessage[], options: GuardOptions = {}): LLMMessage[] {
+	// Extract roles, selection type, number of messages, and predicate from options
+	const { roles = [], selection = SelectionType.All, n = 1, predicate } = options
 
-	if ('predicate' in opts && typeof opts.predicate === 'function') {
-		return allCandidates.map((msg) => ({
-			...msg,
-			inScope: opts.predicate(msg, allCandidates.indexOf(msg), allCandidates),
-		}))
+	// If a predicate is provided, use it to determine in-scope messages
+	if (predicate) {
+		return messages.map((msg, idx, arr) => ({ ...msg, inScope: predicate(msg, idx, arr) }))
 	}
 
-	const roles = opts.roles || []
-	const selection = opts.selection || SelectionType.All
-	const n = opts.n || 1
+	// Identify indices of messages that match the specified roles
+	const matchingIndices = messages
+		.map((msg, idx) => ({ msg, idx }))
+		.filter(({ msg }) => msg.content)
+		.filter(({ msg }) => roles.length === 0 || roles.includes(msg.role as MessageType))
+		.map(({ idx }) => idx)
 
-	let candidates = allCandidates
-	if (roles.length > 0) {
-		candidates = allCandidates.map((msg) => ({
-			...msg,
-			inScope: roles.includes(msg.role as MessageType),
-		}))
+	// Determine selected indices based on the selection type
+	const selectedIndicesFilter = () => {
+		switch (selection) {
+			case SelectionType.First:
+				return new Set(matchingIndices.slice(0, 1))
+			case SelectionType.Last:
+				return new Set(matchingIndices.slice(-1))
+			case SelectionType.NFirst:
+				return new Set(matchingIndices.slice(0, n))
+			case SelectionType.NLast:
+				return new Set(matchingIndices.slice(-n))
+			default:
+				return new Set(matchingIndices)
+		}
 	}
 
-	if (selection === SelectionType.First) {
-		return candidates.map((msg, idx) => ({
-			...msg,
-			inScope: msg.inScope && idx === 0,
-		}))
-	} else if (selection === SelectionType.NFirst) {
-		return candidates.map((msg, idx) => ({
-			...msg,
-			inScope: msg.inScope && idx < n,
-		}))
-	} else if (selection === SelectionType.Last) {
-		return candidates.map((msg, idx, arr) => ({
-			...msg,
-			inScope: msg.inScope && idx === arr.length - 1,
-		}))
-	} else if (selection === SelectionType.NLast) {
-		return candidates.map((msg, idx, arr) => ({
-			...msg,
-			inScope: msg.inScope && idx >= arr.length - n,
-		}))
-	} else if (selection === SelectionType.All && roles.length > 0) {
-		return candidates
-	} else if (selection === SelectionType.All) {
-		return candidates.map((msg) => ({ ...msg, inScope: true }))
-	}
+	// Get the set of selected indices
+	const selectedIndices = selectedIndicesFilter()
 
-	return candidates.map((msg) => ({ ...msg, inScope: false }))
+	// Update messages with inScope property based on selected indices
+	return messages.map((msg, idx) => ({ ...msg, inScope: selectedIndices.has(idx) }))
 }
 
 export function makeGuard(config: MakeGuardConfig): Guard {
