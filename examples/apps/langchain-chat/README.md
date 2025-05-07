@@ -69,16 +69,16 @@ This example demonstrates how **effortlessly** you can integrate HAI Guardrails 
 
 ```typescript
 import { GuardrailsEngine, makePIIGuard, makeSecretGuard } from '@presidio-dev/hai-guardrails'
-import { LangChainChatGuardrails } from '@presidio-dev/hai-guardrails'
+import { LangChainChatGuardrails, SelectionType } from '@presidio-dev/hai-guardrails'
 
 // 1. Create a guardrails engine with your desired guards
 const guardRailsEngine = new GuardrailsEngine({
 	guards: [
 		makePIIGuard({
-			selection: 'all',
+			selection: SelectionType.All,
 		}),
 		makeSecretGuard({
-			selection: 'all',
+			selection: SelectionType.All,
 		}),
 	],
 	enabled: true,

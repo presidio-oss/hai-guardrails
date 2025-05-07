@@ -1,10 +1,11 @@
-import type {
-	Guard,
-	GuardOptions,
-	GuardResult,
-	LLMMessage,
-	MakeGuardConfig,
-	MessageType,
+import {
+	SelectionType,
+	type Guard,
+	type GuardOptions,
+	type GuardResult,
+	type LLMMessage,
+	type MakeGuardConfig,
+	type MessageType,
 } from '@hai-guardrails/types'
 
 function selectMessages(messages: LLMMessage[], opts: GuardOptions = {}): LLMMessage[] {
@@ -18,7 +19,7 @@ function selectMessages(messages: LLMMessage[], opts: GuardOptions = {}): LLMMes
 	}
 
 	const roles = opts.roles || []
-	const selection = opts.selection || 'all'
+	const selection = opts.selection || SelectionType.All
 	const n = opts.n || 1
 
 	let candidates = allCandidates
@@ -29,29 +30,29 @@ function selectMessages(messages: LLMMessage[], opts: GuardOptions = {}): LLMMes
 		}))
 	}
 
-	if (selection === 'first') {
+	if (selection === SelectionType.First) {
 		return candidates.map((msg, idx) => ({
 			...msg,
 			inScope: msg.inScope && idx === 0,
 		}))
-	} else if (selection === 'n-first') {
+	} else if (selection === SelectionType.NFirst) {
 		return candidates.map((msg, idx) => ({
 			...msg,
 			inScope: msg.inScope && idx < n,
 		}))
-	} else if (selection === 'last') {
+	} else if (selection === SelectionType.Last) {
 		return candidates.map((msg, idx, arr) => ({
 			...msg,
 			inScope: msg.inScope && idx === arr.length - 1,
 		}))
-	} else if (selection === 'n-last') {
+	} else if (selection === SelectionType.NLast) {
 		return candidates.map((msg, idx, arr) => ({
 			...msg,
 			inScope: msg.inScope && idx >= arr.length - n,
 		}))
-	} else if (selection === 'all' && roles.length > 0) {
+	} else if (selection === SelectionType.All && roles.length > 0) {
 		return candidates
-	} else if (selection === 'all') {
+	} else if (selection === SelectionType.All) {
 		return candidates.map((msg) => ({ ...msg, inScope: true }))
 	}
 

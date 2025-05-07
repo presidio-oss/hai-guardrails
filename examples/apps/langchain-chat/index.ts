@@ -4,7 +4,7 @@ import { stdin as input, stdout as output } from 'node:process'
 import * as readline from 'node:readline/promises'
 import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import { GuardrailsEngine, makePIIGuard, makeSecretGuard } from '@presidio-dev/hai-guardrails'
-import { LangChainChatGuardrails } from '@presidio-dev/hai-guardrails'
+import { LangChainChatGuardrails, SelectionType } from '@presidio-dev/hai-guardrails'
 
 class ChatInstance {
 	private llm: BaseChatModel
@@ -71,10 +71,10 @@ const model = new ChatGoogleGenerativeAI({
 const guardRailsEngine = new GuardrailsEngine({
 	guards: [
 		makePIIGuard({
-			selection: 'all',
+			selection: SelectionType.All,
 		}),
 		makeSecretGuard({
-			selection: 'all',
+			selection: SelectionType.All,
 		}),
 	],
 	enabled: true,

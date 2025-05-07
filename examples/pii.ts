@@ -1,10 +1,11 @@
 import { makePIIGuard } from '../src'
-import { GuardrailsEngine } from '../src/engine'
+import { GuardrailsEngine } from '../src'
+import { SelectionType } from '../src'
 
 const engine = new GuardrailsEngine({
 	guards: [
 		makePIIGuard({
-			selection: 'all',
+			selection: SelectionType.All,
 		}),
 	],
 })

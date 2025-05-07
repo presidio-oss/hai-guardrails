@@ -275,10 +275,10 @@ Detects and redacts personally identifiable information (PII) such as emails, ph
 **Example usage**:
 
 ```typescript
-import { makePIIGuard } from '@presidio-dev/hai-guardrails'
+import { makePIIGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
 const piiGuard = makePIIGuard({
-	selection: 'all', // Check all messages
+	selection: SelectionType.All, // Check all messages
 })
 ```
 
@@ -315,10 +315,10 @@ Detects and redacts secrets such as API keys, access tokens, credentials, and ot
 **Example usage**:
 
 ```typescript
-import { makeSecretGuard } from '@presidio-dev/hai-guardrails'
+import { makeSecretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
 const secretGuard = makeSecretGuard({
-	selection: 'all', // Check all messages
+	selection: SelectionType.All, // Check all messages
 })
 ```
 
@@ -357,6 +357,7 @@ import {
 	makeLeakageGuard,
 	makePIIGuard,
 	makeSecretGuard,
+	SelectionType,
 } from '@presidio-dev/hai-guardrails'
 
 // Create guards
@@ -368,11 +369,11 @@ const injectionGuard = makeInjectionGuard(
 const leakageGuard = makeLeakageGuard({ roles: ['user'] }, { mode: 'pattern', threshold: 0.6 })
 
 const piiGuard = makePIIGuard({
-	selection: 'all',
+	selection: SelectionType.All,
 })
 
 const secretGuard = makeSecretGuard({
-	selection: 'all',
+	selection: SelectionType.All,
 })
 
 // Create engine with all guards
@@ -499,7 +500,7 @@ You can seamlessly add guardrails to your Langchain chat models using the `LangC
    }
    ```
 
-3. **See the [example/langchain-guardrails.ts](example/langchain-guardrails.ts) file for a full working example.**
+3. **See the [examples/langchain-guardrails.ts](examples/langchain-guardrails.ts) file for a full working example.**
 
 ---
 
@@ -542,7 +543,12 @@ type GuardOptions = {
 
    ```typescript
    // guardrails.ts
-   import { GuardrailsEngine, makeInjectionGuard, makePIIGuard } from '@presidio-dev/hai-guardrails'
+   import {
+   	GuardrailsEngine,
+   	makeInjectionGuard,
+   	makePIIGuard,
+   	SelectionType,
+   } from '@presidio-dev/hai-guardrails'
 
    // Create a simple guardrails engine with injection and PII protection
    export function createGuardrails() {
@@ -552,7 +558,7 @@ type GuardOptions = {
    	)
 
    	const piiGuard = makePIIGuard({
-   		selection: 'all',
+   		selection: SelectionType.All,
    	})
 
    	return new GuardrailsEngine({
@@ -603,6 +609,7 @@ import {
 	makeLeakageGuard,
 	makePIIGuard,
 	makeSecretGuard,
+	SelectionType,
 } from '@presidio-dev/hai-guardrails'
 
 // Create a function to set up comprehensive guardrails
@@ -627,8 +634,8 @@ export function createComprehensiveGuardrails(llmProvider) {
 	const leakageGuard = makeLeakageGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.6 })
 
 	// PII and secret protection
-	const piiGuard = makePIIGuard({ selection: 'all' })
-	const secretGuard = makeSecretGuard({ selection: 'all' })
+	const piiGuard = makePIIGuard({ selection: SelectionType.All })
+	const secretGuard = makeSecretGuard({ selection: SelectionType.All })
 
 	// Create engine with all guards
 	return new GuardrailsEngine({
@@ -862,7 +869,7 @@ You can seamlessly add guardrails to your Langchain chat models using the `LangC
    }
    ```
 
-3. **See the [example/langchain-guardrails.ts](example/langchain-guardrails.ts) file for a full working example.**
+3. **See the [examples/langchain-guardrails.ts](examples/langchain-guardrails.ts) file for a full working example.**
 
 ---
 

@@ -1,5 +1,5 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-import { makeLeakageGuard } from '../src/guards/leakage.guard'
+import { makeLeakageGuard } from '../src'
 
 const messages = [
 	{

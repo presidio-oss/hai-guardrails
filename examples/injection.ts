@@ -1,5 +1,5 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-import { makeInjectionGuard } from '../src/guards/injection.guard'
+import { makeInjectionGuard } from '../src'
 
 const messages = [
 	{

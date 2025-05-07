@@ -1,5 +1,5 @@
-import { makeInjectionGuard } from '../src/guards/injection.guard'
-import type { LLMMessage } from '../src/types/types'
+import { makeInjectionGuard } from '../src'
+import type { LLMMessage } from '../src'
 import OpenAI from 'openai'
 
 // Initialize OpenAI client with your API key

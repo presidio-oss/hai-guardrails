@@ -38,6 +38,14 @@ export type Guard = (messages: LLMMessage[], llm?: LLM) => Promise<GuardResult[]
 
 export type GuardPredicate = (msg: LLMMessage, idx: number, messages: LLMMessage[]) => boolean
 
+export enum SelectionType {
+	First = 'first',
+	NFirst = 'n-first',
+	Last = 'last',
+	NLast = 'n-last',
+	All = 'all',
+}
+
 export type GuardOptions =
 	| {
 			predicate: GuardPredicate
@@ -49,7 +57,7 @@ export type GuardOptions =
 	| {
 			predicate?: never
 			roles?: MessageType[]
-			selection?: 'first' | 'n-first' | 'last' | 'n-last' | 'all'
+			selection?: SelectionType
 			n?: number
 			llm?: LLM
 	  }
