@@ -14,38 +14,38 @@ import { normalizeString } from '../utils/util'
  * prompt injection attack. Defaults to 0.
  */
 export class Pattern implements Tactic {
-  readonly name = TacticName.Pattern
-  readonly defaultThreshold: number
+	readonly name = TacticName.Pattern
+	readonly defaultThreshold: number
 
-  constructor(
-    threshold: number = 0,
-    private readonly patterns: RegExp[]
-  ) {
-    this.defaultThreshold = threshold
-  }
+	constructor(
+		threshold: number = 0,
+		private readonly patterns: RegExp[]
+	) {
+		this.defaultThreshold = threshold
+	}
 
-  async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
-    const normalizedInput = normalizeString(input)
+	async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
+		const normalizedInput = normalizeString(input)
 
-    let matchedPattern: RegExp | null = null
-    const result = this.patterns.some((pattern) => {
-      if (pattern.test(normalizedInput)) {
-        matchedPattern = pattern
-        return true
-      }
-      return false
-    })
+		let matchedPattern: RegExp | null = null
+		const result = this.patterns.some((pattern) => {
+			if (pattern.test(normalizedInput)) {
+				matchedPattern = pattern
+				return true
+			}
+			return false
+		})
 
-    const score = result ? 1 : 0
-    const threshold = thresholdOverride ?? this.defaultThreshold
+		const score = result ? 1 : 0
+		const threshold = thresholdOverride ?? this.defaultThreshold
 
-    return {
-      score,
-      additionalFields: {
-        matchedPattern,
-        threshold,
-        isInjection: score >= threshold,
-      },
-    }
-  }
+		return {
+			score,
+			additionalFields: {
+				matchedPattern,
+				threshold,
+				isInjection: score >= threshold,
+			},
+		}
+	}
 }

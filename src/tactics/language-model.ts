@@ -16,53 +16,53 @@ import type { LLM } from '../types/types'
  * Must be an instance of BaseChatModel.
  */
 export class LanguageModel implements Tactic {
-  readonly name = TacticName.LanguageModel
-  readonly defaultThreshold: number
+	readonly name = TacticName.LanguageModel
+	readonly defaultThreshold: number
 
-  constructor(
-    threshold: number = 0,
-    private readonly llm: LLM,
-    private renderPromptTemplate: (input: string) => string
-  ) {
-    this.defaultThreshold = threshold
-  }
+	constructor(
+		threshold: number = 0,
+		private readonly llm: LLM,
+		private renderPromptTemplate: (input: string) => string
+	) {
+		this.defaultThreshold = threshold
+	}
 
-  async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
-    const prompt = this.renderPromptTemplate(input.trim())
-    let score = 0.0
-    let resultText = ''
-    try {
-      const messages = [
-        {
-          role: 'system',
-          content: prompt,
-        },
-        {
-          role: 'human',
-          content: input.trim(),
-        },
-      ] satisfies LLMMessages
-      if (this.llm instanceof BaseChatModel) {
-        const result = await this.llm.invoke(messages)
-        score = parseFloat(result.text || '0')
-        resultText = result.text
-      } else {
-        const result = await this.llm(messages)
-        score = parseFloat(result[result.length - 1]?.content || '0')
-        resultText = result[result.length - 1]?.content || ''
-      }
-      const threshold = thresholdOverride ?? this.defaultThreshold
-      return {
-        score,
-        additionalFields: {
-          modelResponse: resultText,
-          threshold,
-          isInjection: score >= threshold,
-        },
-      }
-    } catch (error) {
-      console.error('Error executing language model:', error)
-      return { score: 0, additionalFields: { error } }
-    }
-  }
+	async execute(input: string, thresholdOverride?: number): Promise<TacticExecution> {
+		const prompt = this.renderPromptTemplate(input.trim())
+		let score = 0.0
+		let resultText = ''
+		try {
+			const messages = [
+				{
+					role: 'system',
+					content: prompt,
+				},
+				{
+					role: 'human',
+					content: input.trim(),
+				},
+			] satisfies LLMMessages
+			if (this.llm instanceof BaseChatModel) {
+				const result = await this.llm.invoke(messages)
+				score = parseFloat(result.text || '0')
+				resultText = result.text
+			} else {
+				const result = await this.llm(messages)
+				score = parseFloat(result[result.length - 1]?.content || '0')
+				resultText = result[result.length - 1]?.content || ''
+			}
+			const threshold = thresholdOverride ?? this.defaultThreshold
+			return {
+				score,
+				additionalFields: {
+					modelResponse: resultText,
+					threshold,
+					isInjection: score >= threshold,
+				},
+			}
+		} catch (error) {
+			console.error('Error executing language model:', error)
+			return { score: 0, additionalFields: { error } }
+		}
+	}
 }
