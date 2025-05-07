@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.1...v1.6.2) (2025-05-07)
+
+
+### Bug Fixes
+
+* refine message selection logic and add comprehensive tests ([af99315](https://github.com/presidio-oss/hai-guardrails/commit/af9931537be453557461aeb4ceb1b89ed406695c))
+* refine message selection logic and add comprehensive tests ([cb1ab89](https://github.com/presidio-oss/hai-guardrails/commit/cb1ab891fd1bd3256d45361dbeda2e57631143d9))
+
 ## [1.6.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.0...v1.6.1) (2025-05-07)
 
 ## 1.6.0 (2025-05-05)
