@@ -453,6 +453,56 @@ const languageModelGuard = makeInjectionGuard(
 )
 ```
 
+---
+
+## Langchain Integration
+
+You can seamlessly add guardrails to your Langchain chat models using the `LangChainChatGuardrails` bridge. This allows you to have benefits of guardrails without having to have a extensive rewriting of your existing codebase.
+
+### Usage
+
+1. **Install dependencies** (if you haven't already):
+
+   ```bash
+   npm install @presidio-dev/hai-guardrails @langchain/openai
+   ```
+
+2. **Wrap your Langchain chat model:**
+
+   ```typescript
+   import { ChatOpenAI } from '@langchain/openai'
+   import { GuardrailsEngine } from '@presidio-dev/hai-guardrails'
+   import { LangChainChatGuardrails } from '@presidio-dev/hai-guardrails'
+
+   async function main() {
+   	// Initialize your base LangChain chat model
+   	const baseModel = new ChatOpenAI({
+   		apiKey: process.env.OPENAI_API_KEY,
+   		temperature: 0.7,
+   		model: 'gpt-3.5-turbo',
+   	})
+
+   	// Initialize the Guardrails engine (configure as needed)
+   	const guardrailsEngine = new GuardrailsEngine({
+   		guards: [], // add any guarsards you want to use
+   	})
+
+   	// Wrap your model with guardrails
+   	const guardedModel = LangChainChatGuardrails(baseModel, guardrailsEngine)
+
+   	// Use the guarded model as you would normally
+   	const response = await guardedModel.invoke([
+   		{ role: 'user', content: 'Hello, who won the world series in 2020?' },
+   	])
+
+   	console.log('Guarded response:', response)
+   }
+   ```
+
+3. **See the [example/langchain-guardrails.ts](example/langchain-guardrails.ts) file for a full working example.**
+
+---
+
 ### Configuration Options
 
 Each guard type has specific configuration options:
@@ -728,6 +778,10 @@ For detailed development setup instructions, please refer to our [Development Se
    ```
 
 ## Roadmap
+
+- [ ] Streaming Support
+- [ ] Promopt Chaining for Guard Chaining
+- [ ] Configurable Exceptions throwing for blocking scenarios
 
 ### Security Guards
 
