@@ -12,6 +12,8 @@ permissions:
   packages: write
   checks: write
   pull-requests: write
+  id-token: write
+  attestations: write
 
 jobs:
   lint:
@@ -37,8 +39,6 @@ jobs:
     name: Build
     needs: lint
     runs-on: ubuntu-latest
-    outputs:
-      hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,88 +61,20 @@ jobs:
           # Build
           bun run build
 
-      - name: Generate hashes
-        id: hash
-        run: |
-          cd dist
-          echo "hashes=$(find . -type f -not -path "*/node_modules/*" -not -path "*/\.*" | sort | xargs sha256sum | base64 -w0)" >> $GITHUB_OUTPUT
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
             dist/
-
-  generate-sbom:
-    name: Generate SBOM
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: Attest build artifacts
+        uses: actions/attest-build-provenance@v2
         with:
-          fetch-depth: 0
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: .tool-versions
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: dist/
-
-      - name: Generate SBOM
-        uses: anchore/sbom-action@v0
-        with:
-          format: spdx-json
-          output-file: sbom.spdx.json
-          artifact-name: sbom.spdx.json
-
-      - name: Upload SBOM
-        uses: actions/upload-artifact@v4
-        with:
-          name: sbom-artifact
-          path: sbom.spdx.json
-          retention-days: 90
-
-  generate-provenance:
-    name: Generate Provenance
-    needs: build
-    permissions:
-      actions: read
-      id-token: write
-      contents: read
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: dist/
-
-      - name: Generate provenance
-        uses: slsa-framework/slsa-github-generator@v1.9.0
-        with:
-          base64-subjects-as-input: ${{ needs.build.outputs.hashes }}
-          upload-assets: true
-          provenance-name: provenance.intoto.jsonl
-
-      - name: Upload provenance
-        uses: actions/upload-artifact@v4
-        with:
-          name: provenance-artifact
-          path: provenance.intoto.jsonl
-          retention-days: 90
+          subject-path: 'dist/*'
 
   release:
     name: Release
-    needs: [build, generate-sbom, generate-provenance]
+    needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/release'
     runs-on: ubuntu-latest
     steps:
@@ -162,18 +94,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: .
-
-      - name: Download SBOM
-        uses: actions/download-artifact@v4
-        with:
-          name: sbom-artifact
-          path: .
-
-      - name: Download provenance
-        uses: actions/download-artifact@v4
-        with:
-          name: provenance-artifact
           path: .
 
       - name: Release
