@@ -68,16 +68,16 @@ The application creates a simple chat interface in the terminal using Node.js's 
 This example demonstrates how **effortlessly** you can integrate HAI Guardrails with LangChain. With just a few lines of code, you can add robust security features to your LLM applications:
 
 ```typescript
-import { GuardrailsEngine, makePIIGuard, makeSecretGuard } from '@presidio-dev/hai-guardrails'
+import { GuardrailsEngine, piiGuard, secretGuard } from '@presidio-dev/hai-guardrails'
 import { LangChainChatGuardrails, SelectionType } from '@presidio-dev/hai-guardrails'
 
 // 1. Create a guardrails engine with your desired guards
 const guardRailsEngine = new GuardrailsEngine({
 	guards: [
-		makePIIGuard({
+		piiGuard({
 			selection: SelectionType.All,
 		}),
-		makeSecretGuard({
+		secretGuard({
 			selection: SelectionType.All,
 		}),
 	],

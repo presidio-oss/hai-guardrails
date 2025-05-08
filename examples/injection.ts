@@ -1,5 +1,5 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-import { makeInjectionGuard } from '../src'
+import { injectionGuard } from '../src'
 
 const messages = [
 	{
@@ -12,7 +12,7 @@ const messages = [
 	},
 ]
 
-const heuristicLeakingGuard = makeInjectionGuard(
+const heuristicLeakingGuard = injectionGuard(
 	{
 		roles: ['user'],
 	},
@@ -57,7 +57,7 @@ console.log(heuristic)
 //   }
 // ]
 
-const patternLeakingTactic = makeInjectionGuard(
+const patternLeakingTactic = injectionGuard(
 	{
 		roles: ['user'],
 	},
@@ -106,7 +106,7 @@ const geminiLLM = new ChatGoogleGenerativeAI({
 	apiKey: process.env.GOOGLE_API_KEY, // Make sure to set this environment variable
 })
 
-const languageModelLeakingTactic = makeInjectionGuard(
+const languageModelLeakingTactic = injectionGuard(
 	{
 		roles: ['user'],
 		llm: geminiLLM,

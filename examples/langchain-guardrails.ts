@@ -1,7 +1,7 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { GuardrailsEngine } from '../src'
 import { LangChainChatGuardrails } from '../src'
-import { makePIIGuard, makeSecretGuard } from '../src'
+import { piiGuard, secretGuard } from '../src'
 import { SelectionType } from '../src'
 
 async function main() {
@@ -14,10 +14,10 @@ async function main() {
 	// 2. Initialize the Guardrails engine (configure as needed)
 	const guardrailsEngine = new GuardrailsEngine({
 		guards: [
-			makePIIGuard({
+			piiGuard({
 				selection: SelectionType.All,
 			}),
-			makeSecretGuard({
+			secretGuard({
 				selection: SelectionType.All,
 			}),
 		],

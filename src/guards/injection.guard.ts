@@ -141,7 +141,7 @@ const patternInjectionTactic = new Pattern(0.5, InjectionPatterns)
 const languageModelInjectionTactic = (llm: LLM) =>
 	new LanguageModel(0.5, llm, RenderPromptForInjectionDetection)
 
-export function makeInjectionGuard(
+export function injectionGuard(
 	opts: GuardOptions = {},
 	extra: {
 		mode: 'heuristic' | 'pattern' | 'language-model'
