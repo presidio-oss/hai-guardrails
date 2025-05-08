@@ -22,7 +22,8 @@
 	"npm": {
 		"publish": true,
 		"skipChecks": true,
-		"allowSameVersion": true
+		"allowSameVersion": true,
+		"publishArgs": ["--provenance"]
 	},
 	"plugins": {
 		"@release-it/conventional-changelog": {
