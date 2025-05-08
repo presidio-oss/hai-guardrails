@@ -298,7 +298,7 @@ function redactSecrets(
 type SecretGuardOptions = GuardOptions & {
 	patterns?: SecretPattern[]
 }
-export function makeSecretGuard(opts: SecretGuardOptions = {}): Guard {
+export function secretGuard(opts: SecretGuardOptions = {}): Guard {
 	const patterns = [...DEFAULT_SECRET_PATTERNS, ...(opts.patterns || [])]
 	return makeGuard({
 		...opts,

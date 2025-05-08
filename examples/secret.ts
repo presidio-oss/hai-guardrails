@@ -1,9 +1,9 @@
-import { makeSecretGuard, SelectionType } from '../src'
+import { secretGuard, SelectionType } from '../src'
 import { GuardrailsEngine } from '../src'
 
 const engine = new GuardrailsEngine({
 	guards: [
-		makeSecretGuard({
+		secretGuard({
 			selection: SelectionType.All,
 		}),
 	],
