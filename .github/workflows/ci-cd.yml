@@ -68,6 +68,7 @@ jobs:
           path: |
             dist/
       - name: Attest build artifacts
+        if: github.ref == 'refs/heads/release'
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: 'dist/*'
