@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.8.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.2...v1.8.0) (2025-05-08)
+
+
+### Features
+
+* rename make*Guard functions to *Guard ([c585c16](https://github.com/presidio-oss/hai-guardrails/commit/c585c16ff39fdb67ddeace60a5a3fa0579ce6b7a))
+
 ## [1.6.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.1...v1.6.2) (2025-05-07)
 
 
