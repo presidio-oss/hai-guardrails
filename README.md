@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@presidio-dev/hai-guardrails"><img src="https://img.shields.io/npm/v/@presidio-dev/hai-guardrails.svg" alt="npm version"></a>
   <a href="https://github.com/presidio-oss/hai-guardrails/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://github.com/presidio-oss/hai-guardrails/actions/workflows/ci-cd.yml"><img src="https://img.shields.io/badge/build--provenance-attested-success" alt="Build Provenance"></a>
 </p>
 
 **hai-guardrails** is a comprehensive TypeScript library that provides security and safety guardrails for Large Language Model (LLM) applications. It helps developers implement robust protection mechanisms against common LLM vulnerabilities like prompt injection, information leakage, and exposure of sensitive information.
