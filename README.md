@@ -7,6 +7,14 @@
 
 **hai-guardrails** is a comprehensive TypeScript library that provides security and safety guardrails for Large Language Model (LLM) applications. It helps developers implement robust protection mechanisms against common LLM vulnerabilities like prompt injection, information leakage, and exposure of sensitive information.
 
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/img/hai-guardrails-architecture-with-bg.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/img/hai-guardrails-architecture-with-bg.png">
+    <img alt="hai-guardrails architecture" src="assets/img/hai-guardrails-architecture-with-bg.png" height="auto">
+  </picture>
+</div>
+
 ## Table of Contents
 
 - [Key Features](#key-features)
@@ -115,26 +123,6 @@ Check out the following:
 ### What are LLM Guardrails?
 
 LLM guardrails are security and safety mechanisms that protect your AI applications from various threats and vulnerabilities. They act as filters or checkpoints that analyze user inputs and LLM outputs to detect and mitigate potential issues.
-
-### Architecture Overview
-
-The hai-guardrails library uses a modular architecture that allows for flexible configuration and composition of different protection mechanisms:
-
-```mermaid
-graph TD
-    A[User Input] --> B[Guard System]
-    B --> C[Guard 1]
-    B --> D[Guard 2]
-    B --> E[Guard 3]
-    C --> F[Detection Methods]
-    D --> F
-    E --> F
-    F --> G[Score]
-    G --> H{Threshold Check}
-    H -->|Above| I[Block Request]
-    H -->|Below| J[Allow Request]
-    J --> K[LLM]
-```
 
 ### How Guards Work
 
@@ -784,6 +772,57 @@ For detailed development setup instructions, please refer to our [Development Se
 - [x] Langchain.js SDK Support
 - [x] BYOP (Bring Your Own Provider) with callbacks
 - [ ] Add support for more LLM provider SDKs (OpenAI, Anthropic, etc.)
+
+## Software Supply Chain Security
+
+### Attestations Provenance
+
+This project includes automated generation of software supply chain attestations as part of its CI/CD pipeline. These attestations provide verifiable evidence about how the software was built and what it contains, enhancing security and transparency.
+
+#### What are Attestations?
+
+Attestations are cryptographically signed statements about software artifacts that provide verifiable evidence about their origin, build process, and contents. They help users verify the authenticity and integrity of the software they're using.
+
+#### Included Attestations
+
+1. **Software Bill of Materials (SBOM)**
+
+   - Generated in SPDX JSON format
+   - Lists all dependencies and components used in the package
+   - Helps identify potential vulnerabilities in dependencies
+   - Available as an artifact in GitHub releases
+
+2. **SLSA Provenance**
+   - Follows the [Supply chain Levels for Software Artifacts (SLSA)](https://slsa.dev/) framework
+   - Provides cryptographically verifiable information about the build process
+   - Includes build metadata, source code information, and artifact hashes
+   - Helps verify that the package was built from the expected source in a secure environment
+
+#### How to Verify Attestations
+
+1. Download the attestation files from the GitHub release assets:
+
+   - `sbom.spdx.json` - The Software Bill of Materials
+   - `provenance.intoto.jsonl` - The SLSA provenance attestation
+
+2. Use tools like [slsa-verifier](https://github.com/slsa-framework/slsa-verifier) to verify the provenance:
+
+   ```bash
+   slsa-verifier verify-artifact [ARTIFACT] --provenance-path provenance.intoto.jsonl
+   ```
+
+3. Use SBOM analysis tools to inspect the dependencies:
+   ```bash
+   # Example using syft
+   syft sbom.spdx.json
+   ```
+
+#### Benefits
+
+- **Supply Chain Security**: Helps protect against supply chain attacks by providing verifiable evidence about the build process
+- **Vulnerability Management**: Makes it easier to identify affected components when new vulnerabilities are discovered
+- **Compliance**: Helps meet regulatory requirements for software transparency and security
+- **Trust**: Provides users with confidence that the software they're using was built securely
 
 ## License & Security
 
