@@ -80,10 +80,10 @@ npm install @presidio-dev/hai-guardrails
 Here's a simple example of using the Injection Guard to protect your LLM application:
 
 ```typescript
-import { makeInjectionGuard, GuardrailsEngine } from '@presidio-dev/hai-guardrails'
+import { injectionGuard, GuardrailsEngine } from '@presidio-dev/hai-guardrails'
 
 // Create a simple injection guard with heuristic detection
-const injectionGuard = makeInjectionGuard(
+const injectionGuard = injectionGuard(
 	{ roles: ['user'] }, // Only check user messages
 	{ mode: 'heuristic', threshold: 0.5 } // Use heuristic detection with 0.5 threshold
 )
@@ -173,19 +173,16 @@ Prevents prompt injection attacks by detecting and blocking attempts to manipula
 **Example usage**:
 
 ```typescript
-import { makeInjectionGuard } from '@presidio-dev/hai-guardrails'
+import { injectionGuard } from '@presidio-dev/hai-guardrails'
 
 // Heuristic detection
-const heuristicGuard = makeInjectionGuard(
-	{ roles: ['user'] },
-	{ mode: 'heuristic', threshold: 0.5 }
-)
+const heuristicGuard = injectionGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.5 })
 
 // Pattern matching
-const patternGuard = makeInjectionGuard({ roles: ['user'] }, { mode: 'pattern', threshold: 0.5 })
+const patternGuard = injectionGuard({ roles: ['user'] }, { mode: 'pattern', threshold: 0.5 })
 
 // Language model detection (requires an LLM)
-const lmGuard = makeInjectionGuard(
+const lmGuard = injectionGuard(
 	{ roles: ['user'], llm: yourLLMProvider },
 	{ mode: 'language-model', threshold: 0.5 }
 )
@@ -232,9 +229,9 @@ Prevents information leakage by detecting and blocking attempts to extract syste
 **Example usage**:
 
 ```typescript
-import { makeLeakageGuard } from '@presidio-dev/hai-guardrails'
+import { leakageGuard } from '@presidio-dev/hai-guardrails'
 
-const leakageGuard = makeLeakageGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.5 })
+const leakageGuard = leakageGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.5 })
 ```
 
 **Example output**:
@@ -274,9 +271,9 @@ Detects and redacts personally identifiable information (PII) such as emails, ph
 **Example usage**:
 
 ```typescript
-import { makePIIGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+import { piiGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
-const piiGuard = makePIIGuard({
+const piiGuard = piiGuard({
 	selection: SelectionType.All, // Check all messages
 })
 ```
@@ -316,9 +313,9 @@ Detects and redacts secrets such as API keys, access tokens, credentials, and ot
 **Example usage**:
 
 ```typescript
-import { makeSecretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+import { secretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
-const secretGuard = makeSecretGuard({
+const secretGuard = secretGuard({
 	selection: SelectionType.All, // Check all messages
 })
 ```
@@ -356,26 +353,23 @@ The GuardrailsEngine allows you to compose multiple guards for comprehensive pro
 ```typescript
 import {
 	GuardrailsEngine,
-	makeInjectionGuard,
-	makeLeakageGuard,
-	makePIIGuard,
-	makeSecretGuard,
+	injectionGuard,
+	leakageGuard,
+	piiGuard,
+	secretGuard,
 	SelectionType,
 } from '@presidio-dev/hai-guardrails'
 
 // Create guards
-const injectionGuard = makeInjectionGuard(
-	{ roles: ['user'] },
-	{ mode: 'heuristic', threshold: 0.7 }
-)
+const injectionGuard = injectionGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.7 })
 
-const leakageGuard = makeLeakageGuard({ roles: ['user'] }, { mode: 'pattern', threshold: 0.6 })
+const leakageGuard = leakageGuard({ roles: ['user'] }, { mode: 'pattern', threshold: 0.6 })
 
-const piiGuard = makePIIGuard({
+const piiGuard = piiGuard({
 	selection: SelectionType.All,
 })
 
-const secretGuard = makeSecretGuard({
+const secretGuard = secretGuard({
 	selection: SelectionType.All,
 })
 
@@ -400,7 +394,7 @@ console.log(JSON.stringify(results, null, 2))
 You can use any LLM provider that matches the signature `(messages: LLMMessage[]) => Promise<LLMMessage[]>`:
 
 ```typescript
-import { makeInjectionGuard } from '@presidio-dev/hai-guardrails'
+import { injectionGuard } from '@presidio-dev/hai-guardrails'
 import type { LLMMessage } from '@presidio-dev/hai-guardrails/types/types'
 import OpenAI from 'openai'
 
@@ -445,7 +439,7 @@ const customLLMProvider = async (messages: LLMMessage[]): Promise<LLMMessage[]> 
 }
 
 // Use your custom provider with the language model detection tactic
-const languageModelGuard = makeInjectionGuard(
+const languageModelGuard = injectionGuard(
 	{
 		roles: ['user'],
 		llm: customLLMProvider,
@@ -544,19 +538,19 @@ type GuardOptions = {
    // guardrails.ts
    import {
    	GuardrailsEngine,
-   	makeInjectionGuard,
-   	makePIIGuard,
+   	injectionGuard,
+   	piiGuard,
    	SelectionType,
    } from '@presidio-dev/hai-guardrails'
 
    // Create a simple guardrails engine with injection and PII protection
    export function createGuardrails() {
-   	const injectionGuard = makeInjectionGuard(
+   	const injectionGuard = injectionGuard(
    		{ roles: ['user'] },
    		{ mode: 'heuristic', threshold: 0.7 }
    	)
 
-   	const piiGuard = makePIIGuard({
+   	const piiGuard = piiGuard({
    		selection: SelectionType.All,
    	})
 
@@ -604,37 +598,37 @@ For comprehensive protection, you can combine multiple guards with different con
 ```typescript
 import {
 	GuardrailsEngine,
-	makeInjectionGuard,
-	makeLeakageGuard,
-	makePIIGuard,
-	makeSecretGuard,
+	injectionGuard,
+	leakageGuard,
+	piiGuard,
+	secretGuard,
 	SelectionType,
 } from '@presidio-dev/hai-guardrails'
 
 // Create a function to set up comprehensive guardrails
 export function createComprehensiveGuardrails(llmProvider) {
 	// Injection protection with multiple tactics
-	const heuristicInjectionGuard = makeInjectionGuard(
+	const heuristicInjectionGuard = injectionGuard(
 		{ roles: ['user'] },
 		{ mode: 'heuristic', threshold: 0.7 }
 	)
 
-	const patternInjectionGuard = makeInjectionGuard(
+	const patternInjectionGuard = injectionGuard(
 		{ roles: ['user'] },
 		{ mode: 'pattern', threshold: 0.7 }
 	)
 
-	const lmInjectionGuard = makeInjectionGuard(
+	const lmInjectionGuard = injectionGuard(
 		{ roles: ['user'], llm: llmProvider },
 		{ mode: 'language-model', threshold: 0.7 }
 	)
 
 	// Leakage protection
-	const leakageGuard = makeLeakageGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.6 })
+	const leakageGuard = leakageGuard({ roles: ['user'] }, { mode: 'heuristic', threshold: 0.6 })
 
 	// PII and secret protection
-	const piiGuard = makePIIGuard({ selection: SelectionType.All })
-	const secretGuard = makeSecretGuard({ selection: SelectionType.All })
+	const piiGuard = piiGuard({ selection: SelectionType.All })
+	const secretGuard = secretGuard({ selection: SelectionType.All })
 
 	// Create engine with all guards
 	return new GuardrailsEngine({

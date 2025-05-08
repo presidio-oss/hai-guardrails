@@ -62,7 +62,7 @@ const patternLeakingTactic = new Pattern(0.5, LeakingPatterns)
 const languageModelLeakingTactic = (llm: LLM) =>
 	new LanguageModel(0.5, llm, RenderPromptForLeakingDetection)
 
-export function makeLeakageGuard(
+export function leakageGuard(
 	opts: GuardOptions = {},
 	extra: {
 		mode: 'heuristic' | 'pattern' | 'language-model'

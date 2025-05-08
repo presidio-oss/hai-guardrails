@@ -64,7 +64,7 @@ function redactPII(input: string): string {
 	}, input)
 }
 
-export function makePIIGuard(opts: GuardOptions = {}): Guard {
+export function piiGuard(opts: GuardOptions = {}): Guard {
 	return makeGuard({
 		...opts,
 		id: 'pii',

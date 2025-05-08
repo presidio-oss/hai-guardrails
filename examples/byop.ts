@@ -1,4 +1,4 @@
-import { makeInjectionGuard } from '../src'
+import { injectionGuard } from '../src'
 import type { LLMMessage } from '../src'
 import OpenAI from 'openai'
 
@@ -69,7 +69,7 @@ const messages = [
 ]
 
 // Create a language model detection tactic
-const languageModelLeakingTactic = makeInjectionGuard(
+const languageModelLeakingTactic = injectionGuard(
 	{
 		roles: ['user'],
 		llm: customLLMProvider,
