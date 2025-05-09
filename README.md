@@ -278,6 +278,7 @@ Detects and redacts personally identifiable information (PII) such as emails, ph
 
 ```typescript
 import { piiGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+import { piiGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
 // Default mode (redact)
 const piiGuard = piiGuard({
@@ -332,6 +333,7 @@ Detects and redacts secrets such as API keys, access tokens, credentials, and ot
 **Example usage**:
 
 ```typescript
+import { secretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 import { secretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
 // Default mode (redact)
