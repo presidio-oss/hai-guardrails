@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.9.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.8.0...v1.9.0) (2025-05-09)
+
+
+### Features
+
+* add 'block' mode to PII and Secret guards ([d5b26af](https://github.com/presidio-oss/hai-guardrails/commit/d5b26afdeec9aaf957c0173a4c2cc350c6dc76a6))
+* rename make*Guard functions to *Guard ([d4adb48](https://github.com/presidio-oss/hai-guardrails/commit/d4adb48cb9466e22272094e172a745bb37c492e8))
+
 # [1.8.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.6.2...v1.8.0) (2025-05-08)
 
 
