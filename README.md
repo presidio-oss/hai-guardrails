@@ -268,13 +268,26 @@ Detects and redacts personally identifiable information (PII) such as emails, ph
 
 **How it works**: Uses regular expressions to detect and redact common PII patterns.
 
+**Configuration options**:
+
+- `mode`: Determines how the guard handles detected PII
+  - `'redact'` (default): Replaces PII with redaction markers but allows the message to pass
+  - `'block'`: Blocks messages containing PII entirely
+
 **Example usage**:
 
 ```typescript
 import { piiGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
+// Default mode (redact)
 const piiGuard = piiGuard({
 	selection: SelectionType.All, // Check all messages
+})
+
+// Block mode
+const blockingPiiGuard = piiGuard({
+	selection: SelectionType.All,
+	mode: 'block', // Block messages containing PII instead of redacting
 })
 ```
 
@@ -310,13 +323,26 @@ Detects and redacts secrets such as API keys, access tokens, credentials, and ot
 
 **How it works**: Uses regex patterns and entropy checks to identify and redact potential secrets.
 
+**Configuration options**:
+
+- `mode`: Determines how the guard handles detected secrets
+  - `'redact'` (default): Replaces secrets with redaction markers but allows the message to pass
+  - `'block'`: Blocks messages containing secrets entirely
+
 **Example usage**:
 
 ```typescript
 import { secretGuard, SelectionType } from '@presidio-dev/hai-guardrails'
 
+// Default mode (redact)
 const secretGuard = secretGuard({
 	selection: SelectionType.All, // Check all messages
+})
+
+// Block mode
+const blockingSecretGuard = secretGuard({
+	selection: SelectionType.All,
+	mode: 'block', // Block messages containing secrets instead of redacting
 })
 ```
 
