@@ -11,11 +11,13 @@ await Promise.all([
 		...defaultBuildConfig,
 		plugins: [dts()],
 		format: 'esm',
+		target: 'node',
 		naming: '[dir]/[name].js',
 	}),
 	Bun.build({
 		...defaultBuildConfig,
 		format: 'cjs',
+		target: 'node',
 		naming: '[dir]/[name].cjs',
 	}),
 ])
