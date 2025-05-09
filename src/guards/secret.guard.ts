@@ -297,9 +297,11 @@ function redactSecrets(
 
 type SecretGuardOptions = GuardOptions & {
 	patterns?: SecretPattern[]
+	mode?: 'block' | 'redact'
 }
 export function secretGuard(opts: SecretGuardOptions = {}): Guard {
 	const patterns = [...DEFAULT_SECRET_PATTERNS, ...(opts.patterns || [])]
+	const mode = opts.mode || 'redact' // Default to 'redact' if not provided
 	return makeGuard({
 		...opts,
 		id: 'secret',
@@ -327,7 +329,7 @@ export function secretGuard(opts: SecretGuardOptions = {}): Guard {
 			if (found) {
 				return {
 					...common,
-					passed: true,
+					passed: mode === 'redact',
 					reason: 'Input contains potential secrets',
 					modifiedMessage: {
 						...msg,

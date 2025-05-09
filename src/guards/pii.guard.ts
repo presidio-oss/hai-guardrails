@@ -54,8 +54,8 @@ const PII_REGEX_REGISTRY = [
 	},
 ] satisfies PIIRegex[]
 
-function redactPII(input: string): string {
-	const regexes = PII_REGEX_REGISTRY.map((regex) => ({
+function redactPII(input: string, patterns: PIIRegex[]): string {
+	const regexes = patterns.map((regex) => ({
 		...regex,
 		regex: new RegExp(regex.regex.source, regex.regex.flags),
 	}))
@@ -64,12 +64,19 @@ function redactPII(input: string): string {
 	}, input)
 }
 
-export function piiGuard(opts: GuardOptions = {}): Guard {
+type PIIGuardOptions = GuardOptions & {
+	patterns?: PIIRegex[]
+	mode?: 'block' | 'redact'
+}
+
+export function piiGuard(opts: PIIGuardOptions = {}): Guard {
 	return makeGuard({
 		...opts,
 		id: 'pii',
 		name: 'PII Guard',
 		implementation: (input, msg, config, idx) => {
+			const patterns = [...PII_REGEX_REGISTRY, ...(opts.patterns || [])]
+			const mode = opts.mode || 'redact'
 			const common = {
 				guardId: config.id,
 				guardName: config.name,
@@ -85,14 +92,14 @@ export function piiGuard(opts: GuardOptions = {}): Guard {
 					reason: 'Message is not in scope',
 				}
 			}
-			const redactedInput = redactPII(input)
+			const redactedInput = redactPII(input, patterns)
 			if (redactedInput !== input) {
 				return {
 					guardId: config.id,
 					guardName: config.name,
 					message: msg,
 					index: idx,
-					passed: true,
+					passed: mode === 'block',
 					reason: 'Input contains possible PII',
 					modifiedMessage: {
 						...msg,
