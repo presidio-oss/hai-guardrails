@@ -16,6 +16,34 @@ export type GuardrailsEngineResult = {
 	}[]
 }
 
+/**
+ * The GuardrailsEngine class manages the execution of a set of guards on a sequence of messages.
+ * It provides a way to validate and modify messages before they are processed by an LLM.
+ *
+ * @example
+ * ```typescript
+ * import { GuardrailsEngine, piiGuard, secretGuard } from '@hai-guardrails';
+ *
+ * const engine = new GuardrailsEngine({
+ *   guards: [piiGuard(), secretGuard()],
+ * });
+ *
+ * const results = await engine.run(messages);
+ * ```
+ * @param opts - Configuration options for the engine
+ * @param {boolean} opts.enabled - Whether the engine is enabled (default: true)
+ * @param {Guard[]} opts.guards - Array of guard functions to apply to messages
+ * @param {MessageHashingAlgorithm} opts.messageHashingAlgorithm - Algorithm for hashing messages (default: SHA256)
+ *
+ * @method isEnabled - Returns true if the engine is enabled.
+ * @method isDisabled - Returns true if the engine is disabled.
+ * @method enable - Enables the engine.
+ * @method disable - Disables the engine.
+ * @method run - Executes the guards on the provided messages and returns the results.
+ *
+ * The run method processes each message through the configured guards, modifying messages as needed,
+ * and returns the original and modified messages along with the results of the guard checks.
+ */
 export class GuardrailsEngine {
 	constructor(private readonly opts: GuardrailsChainOptions) {
 		const defaultConfig: GuardrailsChainOptions = {
@@ -26,22 +54,44 @@ export class GuardrailsEngine {
 		this.opts = { ...defaultConfig, ...opts }
 	}
 
-	get isEnabled() {
-		return this.opts.enabled
+	/**
+	 * Checks if the engine is currently enabled
+	 * @returns {boolean} True if the engine is enabled
+	 */
+	get isEnabled(): boolean {
+		return this.opts.enabled || false
 	}
 
-	get isDisabled() {
+	/**
+	 * Checks if the engine is currently disabled
+	 * @returns {boolean} True if the engine is disabled
+	 */
+	get isDisabled(): boolean {
 		return !this.opts.enabled
 	}
 
+	/**
+	 * Enables the guardrails engine
+	 */
 	enable() {
 		this.opts.enabled = true
 	}
 
+	/**
+	 * Disables the guardrails engine
+	 */
 	disable() {
 		this.opts.enabled = false
 	}
 
+	/**
+	 * Executes the configured guards on the provided messages
+	 *
+	 * @param {LLMMessage[]} messages - Array of messages to process
+	 * @returns {Promise<GuardrailsEngineResult>} An object containing:
+	 *   - messages: The processed messages
+	 *   - messagesWithGuardResult: Detailed results of guard executions
+	 */
 	async run(messages: LLMMessage[]): Promise<GuardrailsEngineResult> {
 		let llmEngineMessages: LLMEngineMessage[] = messages.map((message) => {
 			return {

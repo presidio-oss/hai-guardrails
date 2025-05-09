@@ -1,5 +1,5 @@
 import type { LLMMessage, MessageHahsingAlgorithm } from '@hai-guardrails/types'
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 
 function safeJSONStringify(obj: any): string | null {
 	try {
