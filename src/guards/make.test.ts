@@ -1,16 +1,21 @@
 import { describe, it, expect } from 'bun:test'
 import { selectMessages } from '@hai-guardrails/guards'
 
-import { SelectionType } from '@hai-guardrails/types'
-import type { LLMMessage } from '@hai-guardrails/types'
+import { MessageHahsingAlgorithm, SelectionType } from '@hai-guardrails/types'
+import type { LLMEngineMessage } from '@hai-guardrails/types'
+import { hashMessage } from '@hai-guardrails/utils/hash'
 
 describe('selectMessages', () => {
-	const messages: LLMMessage[] = [
+	const messages: LLMEngineMessage[] = [
 		{ role: 'user', content: 'Hello' }, // 0
 		{ role: 'assistant', content: 'Hi!' }, // 1
 		{ role: 'user', content: 'How are you?' }, // 2
 		{ role: 'system', content: 'System message' }, // 3
-	]
+	].map((msg) => ({
+		originalMessage: msg,
+		inScope: false,
+		messageHash: hashMessage(msg, MessageHahsingAlgorithm.SHA256),
+	}))
 
 	// 1. get all messages
 	it('gets all messages', () => {
