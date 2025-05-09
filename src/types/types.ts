@@ -3,7 +3,12 @@ import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 export type LLMMessage = {
 	role: string
 	content: string
-	inScope?: boolean
+}
+
+export type LLMEngineMessage = {
+	originalMessage: LLMMessage
+	inScope: boolean
+	messageHash?: string
 }
 
 export type GuardResult = {
@@ -14,12 +19,9 @@ export type GuardResult = {
 	guardName: string
 	message: LLMMessage
 	index: number
+	messageHash?: string
+	inScope: boolean
 	additionalFields?: Record<string, unknown>
-}
-
-export type IOGuard = {
-	input: Guard
-	output: Guard
 }
 
 export type MessageType =
@@ -34,7 +36,10 @@ export type MessageType =
 	| 'tool'
 	| 'remove'
 
-export type Guard = (messages: LLMMessage[], llm?: LLM) => Promise<GuardResult[]> | GuardResult[]
+export type Guard = (
+	messages: LLMMessage[] | LLMEngineMessage[],
+	llm?: LLM
+) => Promise<GuardResult[]> | GuardResult[]
 
 export type GuardPredicate = (msg: LLMMessage, idx: number, messages: LLMMessage[]) => boolean
 
@@ -53,6 +58,7 @@ export type GuardOptions =
 			selection?: never
 			n?: never
 			llm?: LLM
+			messageHashingAlgorithm?: MessageHahsingAlgorithm
 	  }
 	| {
 			predicate?: never
@@ -60,11 +66,12 @@ export type GuardOptions =
 			selection?: SelectionType
 			n?: number
 			llm?: LLM
+			messageHashingAlgorithm?: MessageHahsingAlgorithm
 	  }
 
 export type GuardImplementation = (
 	input: string,
-	msg: LLMMessage,
+	msg: LLMEngineMessage,
 	config: MakeGuardConfig,
 	idx: number,
 	llm?: LLM
@@ -77,19 +84,18 @@ export type MakeGuardConfig = GuardOptions & {
 	implementation: GuardImplementation
 }
 
+export enum MessageHahsingAlgorithm {
+	MD5 = 'md5',
+	SHA1 = 'sha1',
+	SHA256 = 'sha256',
+	SHA512 = 'sha512',
+}
+
 export type GuardrailsChainOptions = {
 	llm?: BaseChatModel
 	guards: Guard[]
 	enabled?: boolean
-}
-
-export type GuardrailsCallResult = {
-	messages: LLMMessage[]
-	inputGuardResults: GuardResult[]
-	outputGuardResults: GuardResult[]
-	blocked: boolean
-	blockedBy: 'input' | 'output' | null
-	blockReason?: string
+	messageHashingAlgorithm?: MessageHahsingAlgorithm
 }
 
 export type LLM = BaseChatModel | ((messages: LLMMessage[]) => Promise<LLMMessage[]>)

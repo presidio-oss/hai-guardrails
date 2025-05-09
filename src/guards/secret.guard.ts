@@ -310,10 +310,12 @@ export function secretGuard(opts: SecretGuardOptions = {}): Guard {
 			const common = {
 				guardId: config.id,
 				guardName: config.name,
-				message: msg,
+				message: msg.originalMessage,
 				index: idx,
 				passed: true,
 				reason: 'No secrets detected',
+				messageHash: msg.messageHash,
+				inScope: msg.inScope,
 			}
 
 			if (!msg.inScope) {
@@ -332,7 +334,7 @@ export function secretGuard(opts: SecretGuardOptions = {}): Guard {
 					passed: mode === 'redact',
 					reason: 'Input contains potential secrets',
 					modifiedMessage: {
-						...msg,
+						...msg.originalMessage,
 						content: redacted,
 					},
 				}

@@ -1,4 +1,11 @@
-import type { GuardrailsChainOptions, GuardResult, LLMMessage } from '@hai-guardrails/types'
+import {
+	MessageHahsingAlgorithm,
+	type GuardrailsChainOptions,
+	type GuardResult,
+	type LLMEngineMessage,
+	type LLMMessage,
+} from '@hai-guardrails/types'
+import { hashMessage } from '@hai-guardrails/utils/hash'
 
 export type GuardrailsEngineResult = {
 	messages: LLMMessage[]
@@ -14,36 +21,53 @@ export class GuardrailsEngine {
 		const defaultConfig: GuardrailsChainOptions = {
 			enabled: true,
 			guards: [],
+			messageHashingAlgorithm: MessageHahsingAlgorithm.SHA256,
 		}
 		this.opts = { ...defaultConfig, ...opts }
 	}
+
 	get isEnabled() {
 		return this.opts.enabled
 	}
+
 	get isDisabled() {
 		return !this.opts.enabled
 	}
+
 	enable() {
 		this.opts.enabled = true
 	}
+
 	disable() {
 		this.opts.enabled = false
 	}
+
 	async run(messages: LLMMessage[]): Promise<GuardrailsEngineResult> {
+		let llmEngineMessages: LLMEngineMessage[] = messages.map((message) => {
+			return {
+				originalMessage: message,
+				inScope: false,
+				messageHash: hashMessage(message, this.opts.messageHashingAlgorithm!),
+			}
+		})
 		const results: GuardResult[][] = []
 		for (const guard of this.opts.guards) {
-			const guardResults = await guard(messages)
+			const guardResults = await guard(llmEngineMessages)
 			results.push(guardResults)
 			for (const guardResult of guardResults) {
 				if (guardResult.modifiedMessage && guardResult.modifiedMessage.content) {
-					messages = messages.map((msg, idx) =>
-						idx === guardResult.index
-							? {
-									...msg,
+					llmEngineMessages = llmEngineMessages.map((msg) => {
+						if (msg.messageHash === guardResult.messageHash) {
+							return {
+								...msg,
+								originalMessage: {
+									...msg.originalMessage,
 									content: guardResult.modifiedMessage!.content,
-								}
-							: msg
-					)
+								},
+							}
+						}
+						return msg
+					})
 				}
 			}
 		}
@@ -74,6 +98,9 @@ export class GuardrailsEngine {
 			})
 		)
 
-		return { messages, messagesWithGuardResult }
+		return {
+			messages: llmEngineMessages.map((msg) => msg.originalMessage),
+			messagesWithGuardResult,
+		}
 	}
 }
