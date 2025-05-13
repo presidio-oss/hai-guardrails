@@ -10,9 +10,9 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/img/hai-guardrails-architecture-with-bg.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/img/hai-guardrails-architecture-with-bg.png">
-    <img alt="hai-guardrails architecture" src="assets/img/hai-guardrails-architecture-with-bg.png" height="auto">
+    <source media="(prefers-color-scheme: dark)" srcset="assets/img/hai-guardrails-architecture-with-bg.jpeg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/img/hai-guardrails-architecture-with-bg.jpeg">
+    <img alt="hai-guardrails architecture" src="assets/img/hai-guardrails-architecture-with-bg.jpeg" height="auto">
   </picture>
 </div>
 
