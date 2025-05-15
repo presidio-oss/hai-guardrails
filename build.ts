@@ -13,11 +13,13 @@ await Promise.all([
 		format: 'esm',
 		target: 'node',
 		naming: '[dir]/[name].js',
+		external: ['@langchain/core'],
 	}),
 	Bun.build({
 		...defaultBuildConfig,
 		format: 'cjs',
 		target: 'node',
 		naming: '[dir]/[name].cjs',
+		external: ['@langchain/core'],
 	}),
 ])
