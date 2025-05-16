@@ -1,5 +1,3 @@
-import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
-
 export enum TacticName {
 	Heuristic = 'heuristic',
 	LanguageModel = 'language_model',
@@ -16,8 +14,3 @@ export interface Tactic {
 	readonly defaultThreshold: number
 	execute(input: string, thresholdOverride?: number): Promise<TacticExecution>
 }
-
-export type LLMMessages = {
-	role: string
-	content: string
-}[]

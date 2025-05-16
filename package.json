@@ -1,6 +1,6 @@
 {
 	"name": "@presidio-dev/hai-guardrails",
-	"version": "1.9.0",
+	"version": "1.10.0-rc.0",
 	"description": "A set of guards for LLM Apps",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
@@ -47,7 +47,8 @@
 		"format:check": "prettier --check .",
 		"release": "release-it",
 		"release:dry-run": "release-it --dry-run",
-		"release:ci": "release-it --ci"
+		"release:ci": "release-it --ci --npm.tag=latest",
+		"release:rc:ci": "release-it --preRelease=rc --npm.tag=rc --github.preRelease"
 	},
 	"engines": {
 		"node": ">=16.0.0",
@@ -69,6 +70,7 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"string-similarity": "^4.0.4"
+		"string-similarity": "^4.0.4",
+		"ts-pattern": "^5.7.0"
 	}
 }

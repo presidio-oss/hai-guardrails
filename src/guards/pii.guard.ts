@@ -80,10 +80,12 @@ export function piiGuard(opts: PIIGuardOptions = {}): Guard {
 			const common = {
 				guardId: config.id,
 				guardName: config.name,
-				message: msg,
+				message: msg.originalMessage,
 				index: idx,
 				passed: true,
 				reason: 'No PII detected',
+				messageHash: msg.messageHash,
+				inScope: msg.inScope,
 			}
 			if (!msg.inScope) {
 				return {
@@ -95,14 +97,11 @@ export function piiGuard(opts: PIIGuardOptions = {}): Guard {
 			const redactedInput = redactPII(input, patterns)
 			if (redactedInput !== input) {
 				return {
-					guardId: config.id,
-					guardName: config.name,
-					message: msg,
-					index: idx,
+					...common,
 					passed: mode === 'block',
 					reason: 'Input contains possible PII',
 					modifiedMessage: {
-						...msg,
+						...msg.originalMessage,
 						content: redactedInput,
 					},
 				}

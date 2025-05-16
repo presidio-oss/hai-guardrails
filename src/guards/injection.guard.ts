@@ -155,12 +155,19 @@ export function injectionGuard(
 		name: 'Injection Guard',
 		description: 'Detects and prevents prompt injection attempts',
 		implementation: async (input, msg, config, idx, llm) => {
+			const common = {
+				guardId: config.id,
+				guardName: config.name,
+				message: msg.originalMessage,
+				index: idx,
+				passed: true,
+				reason: 'No injection detected',
+				inScope: msg.inScope,
+				messageHash: msg.messageHash,
+			}
 			if (!msg.inScope)
 				return {
-					guardId: config.id,
-					guardName: config.name,
-					message: msg,
-					index: idx,
+					...common,
 					passed: true,
 					reason: 'Message is not in scope',
 				}
@@ -182,16 +189,14 @@ export function injectionGuard(
 			const result =
 				extra.mode in tactics ? await tactics[extra.mode]() : { score: 0, additionalFields: {} }
 			return {
-				guardId: config.id,
-				guardName: config.name,
-				message: msg,
-				index: idx,
+				...common,
 				passed: result.score < extra.threshold,
-				reason: !llmInstance
-					? 'Please provide a language model or change the mode to heuristic or pattern'
-					: result.score < extra.threshold
-						? 'No injection detected'
-						: 'Possible injection detected',
+				reason:
+					!llmInstance && extra.mode === 'language-model'
+						? 'Please provide a language model or change the mode to heuristic or pattern'
+						: result.score < extra.threshold
+							? 'No injection detected'
+							: 'Possible injection detected',
 				additionalFields: {
 					...result.additionalFields,
 					score: result.score,

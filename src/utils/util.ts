@@ -16,3 +16,11 @@ export function normalizeInput(input: string | object): string {
 		return String(input)
 	}
 }
+
+export function safeExecute<T>(fn: () => T, fallback: T): T {
+	try {
+		return fn()
+	} catch (error) {
+		return fallback
+	}
+}
