@@ -1,9 +1,6 @@
 import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import type { GuardrailsEngine } from '@hai-guardrails/engine'
-import {
-	convertToLLMMessages,
-	updateMessagesFromLLMMessages,
-} from '@hai-guardrails/utils/langchain.util'
+import { LangChainLLMMessageTransformer } from '@hai-guardrails/bridge/transformer/langchain'
 
 /**
  * Type definition for a proxy handler that can intercept and modify method calls
@@ -37,9 +34,10 @@ type ProxyHandler<T extends BaseChatModel> = {
 const DEFAULT_HANDLER: ProxyHandler<BaseChatModel> = {
 	async invoke(originalFn, target, thisArg, args, guardrailsEngine) {
 		const [input, options] = args
-		const llmMessages = convertToLLMMessages(input)
+		const transformer = new LangChainLLMMessageTransformer(input)
+		const llmMessages = transformer.toLLMMessages()
 		const guardResult = await guardrailsEngine.run(llmMessages)
-		const baseLanguageModelInput = updateMessagesFromLLMMessages(input, guardResult.messages)
+		const baseLanguageModelInput = transformer.applyLLMUpdates(guardResult.messages)
 		return originalFn.call(thisArg, baseLanguageModelInput, options)
 	},
 }
