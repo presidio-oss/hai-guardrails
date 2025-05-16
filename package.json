@@ -47,7 +47,8 @@
 		"format:check": "prettier --check .",
 		"release": "release-it",
 		"release:dry-run": "release-it --dry-run",
-		"release:ci": "release-it --ci"
+		"release:ci": "release-it --ci --npm.tag=latest",
+		"release:rc:ci": "release-it --preRelease=rc --npm.tag=rc --github.preRelease"
 	},
 	"engines": {
 		"node": ">=16.0.0",
