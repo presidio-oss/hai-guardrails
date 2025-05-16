@@ -3,7 +3,10 @@ import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 export type LLMMessage = {
 	role: string
 	content: string
+	id?: string
 }
+
+export type LLMMessages = LLMMessage[]
 
 export type LLMEngineMessage = {
 	originalMessage: LLMMessage
