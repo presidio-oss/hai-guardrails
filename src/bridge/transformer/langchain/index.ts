@@ -50,9 +50,10 @@ export class LangChainLLMMessageTransformer extends GuardrailsMessageTransformer
 	constructor(baseMessage: ILangChainBaseLanguageModelInput) {
 		super()
 		this.baseMessage = baseMessage
-		this.llmMessages = LangChainToLLMMessageAdapter.fromBaseLanguageModelInput(
-			baseMessage
-		).reduce((map, entry) => map.set(entry.id, entry), new Map<string, LLMMessageEntry>())
+		this.llmMessages = LangChainToLLMMessageAdapter.fromBaseLanguageModelInput(baseMessage).reduce(
+			(map, entry) => map.set(entry.id, entry),
+			new Map<string, LLMMessageEntry>()
+		)
 	}
 
 	/**
