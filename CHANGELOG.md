@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.10.0-rc.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.9.0...v1.10.0-rc.0) (2025-05-16)
+
+
+### Bug Fixes
+
+* enhance LangChain bridge with improved message handling ([#24](https://github.com/presidio-oss/hai-guardrails/issues/24)) ([b746cea](https://github.com/presidio-oss/hai-guardrails/commit/b746cea00b1764596f53f4799adc98a60bec8ad1))
+
+
+### Features
+
+* add message hashing and improve guard result structure ([38ac157](https://github.com/presidio-oss/hai-guardrails/commit/38ac157c1b71c993032f93088039bbfdf07998dc))
+
 # [1.9.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.8.0...v1.9.0) (2025-05-09)
 
 
