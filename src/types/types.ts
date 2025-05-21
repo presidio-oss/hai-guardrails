@@ -54,23 +54,14 @@ export enum SelectionType {
 	All = 'all',
 }
 
-export type GuardOptions =
-	| {
-			predicate: GuardPredicate
-			roles?: never
-			selection?: never
-			n?: never
-			llm?: LLM
-			messageHashingAlgorithm?: MessageHahsingAlgorithm
-	  }
-	| {
-			predicate?: never
-			roles?: MessageType[]
-			selection?: SelectionType
-			n?: number
-			llm?: LLM
-			messageHashingAlgorithm?: MessageHahsingAlgorithm
-	  }
+export type GuardOptions = {
+	predicate?: GuardPredicate
+	roles?: MessageType[]
+	selection?: SelectionType
+	n?: number
+	llm?: LLM
+	messageHashingAlgorithm?: MessageHahsingAlgorithm
+}
 
 export type GuardImplementation = (
 	input: string,
