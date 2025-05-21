@@ -94,10 +94,13 @@ export enum MessageHahsingAlgorithm {
 	SHA512 = 'sha512',
 }
 
-export type GuardrailsChainOptions = {
-	llm?: BaseChatModel
+export type LogLevel = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
+
+export interface GuardrailsChainOptions {
+	llm?: LLM
 	guards: Guard[]
 	enabled?: boolean
+	logLevel?: LogLevel
 	messageHashingAlgorithm?: MessageHahsingAlgorithm
 }
 

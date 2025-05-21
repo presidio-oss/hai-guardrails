@@ -48,7 +48,8 @@
 		"release": "release-it",
 		"release:dry-run": "release-it --dry-run",
 		"release:ci": "release-it --ci --npm.tag=latest",
-		"release:rc:ci": "release-it --preRelease=rc --npm.tag=rc --github.preRelease"
+		"release:rc:ci": "release-it --preRelease=rc --npm.tag=rc --github.preRelease",
+		"knip": "knip"
 	},
 	"engines": {
 		"node": ">=16.0.0",
@@ -59,9 +60,12 @@
 		"@commitlint/config-conventional": "^19.8.0",
 		"@release-it/conventional-changelog": "^10.0.1",
 		"@types/bun": "^1.2.11",
+		"@types/node": "^22.15.18",
+		"@types/pino": "^7.0.5",
 		"@types/string-similarity": "^4.0.2",
 		"bun-plugin-dts": "^0.3.0",
 		"husky": "^9.1.7",
+		"knip": "^5.56.0",
 		"prettier": "^3.5.3",
 		"release-it": "^19.0.1"
 	},
@@ -70,7 +74,11 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
+		"jsonrepair": "^3.12.0",
 		"string-similarity": "^4.0.4",
-		"ts-pattern": "^5.7.0"
+		"ts-pattern": "^5.7.0",
+		"zod": "^3.25.0-beta.20250519T094321",
+		"pino": "^9.6.0",
+		"pino-pretty": "^13.0.0"
 	}
 }
