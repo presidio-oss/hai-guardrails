@@ -6,6 +6,9 @@ import {
 	type LLMMessage,
 } from '@hai-guardrails/types'
 import { hashMessage } from '@hai-guardrails/utils/hash'
+import { logger } from '@hai-guardrails/utils/logging/logger'
+import type { LogLevel } from '@hai-guardrails/types'
+import { DEFAULT_LOG_LEVEL } from '@hai-guardrails/utils/logging/types'
 
 export type GuardrailsEngineResult = {
 	messages: LLMMessage[]
@@ -50,8 +53,11 @@ export class GuardrailsEngine {
 			enabled: true,
 			guards: [],
 			messageHashingAlgorithm: MessageHahsingAlgorithm.SHA256,
+			logLevel: DEFAULT_LOG_LEVEL,
 		}
+
 		this.opts = { ...defaultConfig, ...opts }
+		logger.setLevel(this.opts.logLevel || DEFAULT_LOG_LEVEL)
 	}
 
 	/**
@@ -85,6 +91,23 @@ export class GuardrailsEngine {
 	}
 
 	/**
+	 * Sets the log level for the engine
+	 * @param level - The log level to set
+	 */
+	setLogLevel(level: LogLevel) {
+		this.opts.logLevel = level
+		logger.setLevel(level)
+	}
+
+	/**
+	 * Gets the current log level
+	 * @returns The current log level
+	 */
+	getLogLevel(): LogLevel {
+		return logger.getLevel()
+	}
+
+	/**
 	 * Executes the configured guards on the provided messages
 	 *
 	 * @param {LLMMessage[]} messages - Array of messages to process
@@ -93,6 +116,7 @@ export class GuardrailsEngine {
 	 *   - messagesWithGuardResult: Detailed results of guard executions
 	 */
 	async run(messages: LLMMessage[]): Promise<GuardrailsEngineResult> {
+		logger.debug('Starting guardrails engine', { messageCount: messages.length })
 		let llmEngineMessages: LLMEngineMessage[] = messages.map((message) => {
 			return {
 				originalMessage: message,
@@ -102,7 +126,7 @@ export class GuardrailsEngine {
 		})
 		const results: GuardResult[][] = []
 		for (const guard of this.opts.guards) {
-			const guardResults = await guard(llmEngineMessages)
+			const guardResults = await guard(llmEngineMessages, this.opts.llm)
 			results.push(guardResults)
 			for (const guardResult of guardResults) {
 				if (guardResult.modifiedMessage && guardResult.modifiedMessage.content) {
@@ -148,6 +172,7 @@ export class GuardrailsEngine {
 			})
 		)
 
+		logger.debug('Guardrails processing complete')
 		return {
 			messages: llmEngineMessages.map((msg) => msg.originalMessage),
 			messagesWithGuardResult,
