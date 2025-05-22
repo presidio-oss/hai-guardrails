@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.10.0-rc.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.0...v1.10.0-rc.1) (2025-05-22)
+
+
+### Features
+
+* **guards:** implement content moderation guards and examples ([#29](https://github.com/presidio-oss/hai-guardrails/issues/29)) ([3bb78a8](https://github.com/presidio-oss/hai-guardrails/commit/3bb78a873e437500e4663af327df9c4fe353836e))
+* **logging:** add structured logging with Pino integration ([#28](https://github.com/presidio-oss/hai-guardrails/issues/28)) ([ce572ed](https://github.com/presidio-oss/hai-guardrails/commit/ce572edf345e48876a4412cbbb385c9203b0cb76))
+
 # [1.10.0-rc.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.9.0...v1.10.0-rc.0) (2025-05-16)
 
 
