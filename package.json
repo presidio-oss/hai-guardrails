@@ -1,6 +1,6 @@
 {
 	"name": "@presidio-dev/hai-guardrails",
-	"version": "1.10.0-rc.1",
+	"version": "1.10.0-rc.2",
 	"description": "A set of guards for LLM Apps",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",

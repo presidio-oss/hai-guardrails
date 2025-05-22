@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.10.0-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.1...v1.10.0-rc.2) (2025-05-22)
+
+
+### Features
+
+* **exports:** add new guard exports to public API ([#31](https://github.com/presidio-oss/hai-guardrails/issues/31)) ([aadf3c5](https://github.com/presidio-oss/hai-guardrails/commit/aadf3c5c333774e4e65d8f4dabd3d26a199a59c0))
+
 # [1.10.0-rc.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.0...v1.10.0-rc.1) (2025-05-22)
 
 
