@@ -1,2 +1,1 @@
-# Run prettier
-bun run format
+bunx lint-staged
