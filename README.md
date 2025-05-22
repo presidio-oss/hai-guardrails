@@ -418,6 +418,344 @@ const blockingSecretGuard = secretGuard({
 ]
 ```
 
+### 5. Adult Content Guard
+
+Detects and blocks adult or NSFW (Not Safe For Work) content in text inputs.
+
+**Problem it solves**: Users may submit content with explicit sexual themes or adult material that is inappropriate for certain audiences or contexts.
+
+**How it works**: Uses a language model to identify explicit sexual content, adult themes, or other NSFW material.
+
+> Note: All guards that uses language models will default to only evaluating the last message. If you want to evaluate all messages, you must explicitly set `selection: SelectionType.All`.
+
+**Configuration options**:
+
+- `threshold`: The adult content detection threshold (0-1, default: 0.8)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { adultContentGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = adultContentGuard({ threshold: 0.85 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = adultContentGuard({
+	threshold: 0.75,
+	selection: SelectionType.All, // Check all messages
+	roles: ['user', 'assistant'], // Check both user and assistant messages
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "Contains adult themes and implied sexual situations",
+		"guardId": "adult-content",
+		"guardName": "Adult Content Guard",
+		"message": {
+			"role": "user",
+			"content": "This novel explores the intimate relationship between two adults, with scenes implying sexual tension and private encounters."
+		},
+		"index": 0,
+		"messageHash": "670c8e64abb77be04fc4d592c9f665ec2d9669191c560496f9b00e6b792bb9b0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.82,
+			"reason": "Contains adult themes and implied sexual situations",
+			"categories": ["romance", "suggestive"],
+			"isExplicit": false
+		}
+	}
+]
+```
+
+### 6. Bias Detection Guard
+
+Detects potential bias in text inputs, including stereotypes, prejudices, and unfair generalizations.
+
+**Problem it solves**: AI systems may inadvertently perpetuate or amplify biases present in text inputs or outputs.
+
+**How it works**: Uses a language model to identify statements that contain stereotypes, prejudices, or unfair generalizations about people based on their group membership.
+
+**Configuration options**:
+
+- `threshold`: The bias detection threshold (0-1, default: 0.7)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { biasDetectionGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = biasDetectionGuard({ threshold: 0.75 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = biasDetectionGuard({
+	threshold: 0.65,
+	selection: SelectionType.All, // Check all messages
+	roles: ['assistant'], // Only check assistant outputs
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "Makes a sweeping generalization about older workers and technology",
+		"guardId": "bias-detection",
+		"guardName": "Bias Detection Guard",
+		"message": {
+			"role": "user",
+			"content": "Older employees often struggle with new technology."
+		},
+		"index": 0,
+		"messageHash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.85,
+			"reason": "Makes a sweeping generalization about older workers and technology",
+			"categories": ["age", "technological"],
+			"affectedGroups": ["older employees"],
+			"impact": "medium"
+		}
+	}
+]
+```
+
+### 7. Copyright Guard
+
+Detects potential copyright violations in text inputs.
+
+**Problem it solves**: Users may submit content that might be protected by copyright, including song lyrics, book excerpts, articles, code snippets, and movie scripts.
+
+**How it works**: Uses a language model to identify text that might be protected by copyright.
+
+**Configuration options**:
+
+- `threshold`: The copyright detection threshold (0-1, default: 0.8)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { copyrightGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = copyrightGuard({ threshold: 0.75 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = copyrightGuard({
+	threshold: 0.7,
+	selection: SelectionType.All, // Check all messages
+	roles: ['assistant'], // Only check assistant outputs
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "Well-known quote from Shakespeare's Hamlet",
+		"guardId": "copyright",
+		"guardName": "Copyright Guard",
+		"message": {
+			"role": "user",
+			"content": "To be, or not to be, that is the question"
+		},
+		"index": 0,
+		"messageHash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.9,
+			"reason": "Well-known quote from Shakespeare's Hamlet",
+			"type": ["book_excerpt"],
+			"source": "Hamlet by William Shakespeare",
+			"isDirectMatch": true
+		}
+	}
+]
+```
+
+### 8. Hate Speech Guard
+
+Detects hate speech and identity-based attacks in text inputs.
+
+**Problem it solves**: Users may submit content that attacks or uses pejorative/discriminatory language about individuals or groups based on protected characteristics.
+
+**How it works**: Uses a language model to identify content that attacks or uses discriminatory language about a person or group based on their race, ethnicity, religion, gender identity, sexual orientation, or disability status.
+
+**Configuration options**:
+
+- `threshold`: The hate speech detection threshold (0-1, default: 0.9)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { hateSpeechGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = hateSpeechGuard({ threshold: 0.85 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = hateSpeechGuard({
+	threshold: 0.8,
+	selection: SelectionType.All, // Check all messages
+	roles: ['user', 'assistant'], // Check specific roles
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "Makes sweeping negative generalizations about a religious group",
+		"guardId": "hate-speech",
+		"guardName": "Hate Speech Guard",
+		"message": {
+			"role": "user",
+			"content": "[Religious group] are all terrorists and should be banned from our country."
+		},
+		"index": 0,
+		"messageHash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.95,
+			"reason": "Makes sweeping negative generalizations about a religious group",
+			"categories": ["religious", "xenophobic"],
+			"targetedGroups": ["specific religious group"]
+		}
+	}
+]
+```
+
+### 9. Profanity Guard
+
+Detects and filters profane or offensive language in text inputs.
+
+**Problem it solves**: Users may submit content containing profanity, vulgar language, or explicit content that is inappropriate for certain contexts.
+
+**How it works**: Uses a language model to identify and flag profane, vulgar, or offensive language.
+
+**Configuration options**:
+
+- `threshold`: The profanity detection threshold (0-1, default: 0.8)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { profanityGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = profanityGuard({ threshold: 0.9 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = profanityGuard({
+	threshold: 0.75,
+	selection: SelectionType.All, // Check all messages
+	roles: ['user'], // Only check user messages
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "Contains a masked profanity",
+		"guardId": "profanity",
+		"guardName": "Profanity Guard",
+		"message": {
+			"role": "user",
+			"content": "This is a f***ing disaster!"
+		},
+		"index": 0,
+		"messageHash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.95,
+			"reason": "Contains a masked profanity",
+			"flaggedWords": ["f***ing"],
+			"severity": "moderate"
+		}
+	}
+]
+```
+
+### 10. Toxic Guard
+
+Detects toxic language in text inputs.
+
+**Problem it solves**: Users may submit content containing harmful, offensive, or inappropriate language that could create a negative environment.
+
+**How it works**: Uses a language model to analyze text and detect various forms of toxicity, including hate speech, harassment, and other harmful content.
+
+**Configuration options**:
+
+- `threshold`: The toxicity score threshold (0-1, default: 0.95)
+- `llm`: Custom LLM instance to use for detection
+
+**Example usage**:
+
+```typescript
+import { toxicGuard, SelectionType } from '@presidio-dev/hai-guardrails'
+
+// Basic usage with default settings
+const basicGuard = toxicGuard({ threshold: 0.9 })
+
+// Advanced usage with custom selection and LLM
+const customGuard = toxicGuard({
+	threshold: 0.85,
+	selection: SelectionType.All, // Check all messages
+	roles: ['user', 'assistant'], // Check both user and assistant messages
+	llm: customLLM, // Use a custom LLM instance
+})
+```
+
+**Example output**:
+
+```json
+[
+	{
+		"passed": false,
+		"reason": "The sentence includes personal attacks and demeaning language.",
+		"guardId": "toxic",
+		"guardName": "Toxic Guard",
+		"message": {
+			"role": "user",
+			"content": "You're completely useless, stop wasting everyone's time."
+		},
+		"index": 0,
+		"messageHash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+		"inScope": true,
+		"additionalFields": {
+			"score": 0.92,
+			"reason": "The sentence includes personal attacks and demeaning language."
+		}
+	}
+]
+```
+
 ## Detailed Usage
 
 ### Using the GuardrailsEngine
@@ -820,12 +1158,12 @@ For detailed development setup instructions, please refer to our [Development Se
 
 ### Content Guards
 
-- [ ] Toxic Content Guard - Prevent harmful content
-- [ ] Hate Speech Guard - Block hate speech
-- [ ] Profanity Guard - Filter inappropriate language
-- [ ] Copyright Guard - Prevent copyright violations
-- [ ] Adult Content Guard - Block adult content
-- [ ] Bias Detection Guard - Prevent bias based on age, gender, sex, etc.
+- [x] Toxic Content Guard - Prevent harmful content
+- [x] Hate Speech Guard - Block hate speech
+- [x] Profanity Guard - Filter inappropriate language
+- [x] Copyright Guard - Prevent copyright violations
+- [x] Adult Content Guard - Block adult content
+- [x] Bias Detection Guard - Prevent bias based on age, gender, sex, etc.
 
 ### Compliance Guards
 
