@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.10.0-rc.3](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.2...v1.10.0-rc.3) (2025-05-22)
+
+
+### Bug Fixes
+
+* **build:** exclude pino from bundle and optimize build config ([#33](https://github.com/presidio-oss/hai-guardrails/issues/33)) ([67e9679](https://github.com/presidio-oss/hai-guardrails/commit/67e9679898aae7802bf83655fe31775147b35630))
+
 # [1.10.0-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.1...v1.10.0-rc.2) (2025-05-22)
 
 
