@@ -4,10 +4,12 @@ on:
     branches:
       - main
       - release
+      - rc
   pull_request:
     branches:
       - main
       - release
+      - rc
 
 permissions:
   contents: write
@@ -70,7 +72,7 @@ jobs:
           path: |
             dist/
       - name: Attest build artifacts
-        if: github.ref == 'refs/heads/release'
+        if: github.ref == 'refs/heads/release' || github.ref == 'refs/heads/rc'
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: 'dist/*'
@@ -78,7 +80,7 @@ jobs:
   release:
     name: Release
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/release' || github.ref == 'refs/heads/rc')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -113,5 +115,11 @@ jobs:
           echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
           echo "always-auth=true" >> ~/.npmrc
 
-          # Release
-          bun run release:ci
+          # Release based on branch
+          if [ "${{ github.ref }}" = "refs/heads/release" ]; then
+            echo "Releasing stable version..."
+            bun run release:ci
+          elif [ "${{ github.ref }}" = "refs/heads/rc" ]; then
+            echo "Releasing RC version..."
+            bun run release:rc:ci
+          fi

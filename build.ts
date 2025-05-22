@@ -4,6 +4,8 @@ import dts from 'bun-plugin-dts'
 const defaultBuildConfig: BuildConfig = {
 	entrypoints: ['./src/index.ts'],
 	outdir: './dist',
+	target: 'node',
+	external: ['@langchain/core', 'pino', 'pino-pretty'],
 }
 
 await Promise.all([

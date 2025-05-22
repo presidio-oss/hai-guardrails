@@ -3,7 +3,15 @@ import type { BaseChatModel } from '@langchain/core/language_models/chat_models'
 export type LLMMessage = {
 	role: string
 	content: string
-	inScope?: boolean
+	id?: string
+}
+
+export type LLMMessages = LLMMessage[]
+
+export type LLMEngineMessage = {
+	originalMessage: LLMMessage
+	inScope: boolean
+	messageHash?: string
 }
 
 export type GuardResult = {
@@ -14,12 +22,9 @@ export type GuardResult = {
 	guardName: string
 	message: LLMMessage
 	index: number
+	messageHash?: string
+	inScope: boolean
 	additionalFields?: Record<string, unknown>
-}
-
-export type IOGuard = {
-	input: Guard
-	output: Guard
 }
 
 export type MessageType =
@@ -34,7 +39,10 @@ export type MessageType =
 	| 'tool'
 	| 'remove'
 
-export type Guard = (messages: LLMMessage[], llm?: LLM) => Promise<GuardResult[]> | GuardResult[]
+export type Guard = (
+	messages: LLMMessage[] | LLMEngineMessage[],
+	llm?: LLM
+) => Promise<GuardResult[]> | GuardResult[]
 
 export type GuardPredicate = (msg: LLMMessage, idx: number, messages: LLMMessage[]) => boolean
 
@@ -46,25 +54,18 @@ export enum SelectionType {
 	All = 'all',
 }
 
-export type GuardOptions =
-	| {
-			predicate: GuardPredicate
-			roles?: never
-			selection?: never
-			n?: never
-			llm?: LLM
-	  }
-	| {
-			predicate?: never
-			roles?: MessageType[]
-			selection?: SelectionType
-			n?: number
-			llm?: LLM
-	  }
+export type GuardOptions = {
+	predicate?: GuardPredicate
+	roles?: MessageType[]
+	selection?: SelectionType
+	n?: number
+	llm?: LLM
+	messageHashingAlgorithm?: MessageHahsingAlgorithm
+}
 
 export type GuardImplementation = (
 	input: string,
-	msg: LLMMessage,
+	msg: LLMEngineMessage,
 	config: MakeGuardConfig,
 	idx: number,
 	llm?: LLM
@@ -77,19 +78,21 @@ export type MakeGuardConfig = GuardOptions & {
 	implementation: GuardImplementation
 }
 
-export type GuardrailsChainOptions = {
-	llm?: BaseChatModel
-	guards: Guard[]
-	enabled?: boolean
+export enum MessageHahsingAlgorithm {
+	MD5 = 'md5',
+	SHA1 = 'sha1',
+	SHA256 = 'sha256',
+	SHA512 = 'sha512',
 }
 
-export type GuardrailsCallResult = {
-	messages: LLMMessage[]
-	inputGuardResults: GuardResult[]
-	outputGuardResults: GuardResult[]
-	blocked: boolean
-	blockedBy: 'input' | 'output' | null
-	blockReason?: string
+export type LogLevel = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
+
+export interface GuardrailsChainOptions {
+	llm?: LLM
+	guards: Guard[]
+	enabled?: boolean
+	logLevel?: LogLevel
+	messageHashingAlgorithm?: MessageHahsingAlgorithm
 }
 
 export type LLM = BaseChatModel | ((messages: LLMMessage[]) => Promise<LLMMessage[]>)

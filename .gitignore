@@ -182,3 +182,5 @@ build/
 index.js
 index.cjs
 index.d.ts
+.vscode
+.wind*

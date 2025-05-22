@@ -1,7 +1,7 @@
 import { BaseChatModel } from '@langchain/core/language_models/chat_models'
 import {
 	TacticName,
-	type LLMMessages,
+	type LLMMessage,
 	type Tactic,
 	type TacticExecution,
 } from '@hai-guardrails/types'
@@ -46,7 +46,7 @@ export class LanguageModel implements Tactic {
 					role: 'human',
 					content: input.trim(),
 				},
-			] satisfies LLMMessages
+			] satisfies LLMMessage[]
 			if (this.llm instanceof BaseChatModel) {
 				const result = await this.llm.invoke(messages)
 				score = parseFloat(result.text || '0')

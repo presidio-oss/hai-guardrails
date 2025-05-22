@@ -1,5 +1,39 @@
 # Changelog
 
+# [1.10.0-rc.3](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.2...v1.10.0-rc.3) (2025-05-22)
+
+
+### Bug Fixes
+
+* **build:** exclude pino from bundle and optimize build config ([#33](https://github.com/presidio-oss/hai-guardrails/issues/33)) ([67e9679](https://github.com/presidio-oss/hai-guardrails/commit/67e9679898aae7802bf83655fe31775147b35630))
+
+# [1.10.0-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.1...v1.10.0-rc.2) (2025-05-22)
+
+
+### Features
+
+* **exports:** add new guard exports to public API ([#31](https://github.com/presidio-oss/hai-guardrails/issues/31)) ([aadf3c5](https://github.com/presidio-oss/hai-guardrails/commit/aadf3c5c333774e4e65d8f4dabd3d26a199a59c0))
+
+# [1.10.0-rc.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.0...v1.10.0-rc.1) (2025-05-22)
+
+
+### Features
+
+* **guards:** implement content moderation guards and examples ([#29](https://github.com/presidio-oss/hai-guardrails/issues/29)) ([3bb78a8](https://github.com/presidio-oss/hai-guardrails/commit/3bb78a873e437500e4663af327df9c4fe353836e))
+* **logging:** add structured logging with Pino integration ([#28](https://github.com/presidio-oss/hai-guardrails/issues/28)) ([ce572ed](https://github.com/presidio-oss/hai-guardrails/commit/ce572edf345e48876a4412cbbb385c9203b0cb76))
+
+# [1.10.0-rc.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.9.0...v1.10.0-rc.0) (2025-05-16)
+
+
+### Bug Fixes
+
+* enhance LangChain bridge with improved message handling ([#24](https://github.com/presidio-oss/hai-guardrails/issues/24)) ([b746cea](https://github.com/presidio-oss/hai-guardrails/commit/b746cea00b1764596f53f4799adc98a60bec8ad1))
+
+
+### Features
+
+* add message hashing and improve guard result structure ([38ac157](https://github.com/presidio-oss/hai-guardrails/commit/38ac157c1b71c993032f93088039bbfdf07998dc))
+
 # [1.9.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.8.0...v1.9.0) (2025-05-09)
 
 
