@@ -1,7 +1,7 @@
 # 🛡️ hai-guardrails
 
 <p align="center">
-  <strong>Enterprise-grade AI Safety in One Line of Code</strong>
+  <strong>Enterprise-grade AI Safety in Few Lines of Code</strong>
 </p>
 
 <p align="center">

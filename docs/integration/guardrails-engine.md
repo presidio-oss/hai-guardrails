@@ -11,12 +11,58 @@ The GuardrailsEngine:
 - **Aggregates** results from all guards
 - **Continues** processing even if individual guards encounter errors
 
+## Key Types
+
+### LLMMessage
+
+```typescript
+interface LLMMessage {
+	role: string // 'user', 'assistant', 'system', etc.
+	content: string // The message content
+	id?: string // Optional message identifier
+}
+```
+
+### SelectionType
+
+```typescript
+enum SelectionType {
+	First = 'first', // Check only the first matching message
+	NFirst = 'n-first', // Check the first N matching messages
+	Last = 'last', // Check only the last matching message
+	NLast = 'n-last', // Check the last N matching messages
+	All = 'all', // Check all matching messages
+}
+```
+
+### LogLevel
+
+```typescript
+type LogLevel = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent'
+```
+
+### MessageHashingAlgorithm
+
+```typescript
+enum MessageHashingAlgorithm {
+	MD5 = 'md5',
+	SHA1 = 'sha1',
+	SHA256 = 'sha256',
+	SHA512 = 'sha512',
+}
+```
+
 ## Basic Usage
 
 ### Simple Engine Setup
 
 ```typescript
-import { GuardrailsEngine, injectionGuard, piiGuard } from '@presidio-dev/hai-guardrails'
+import {
+	GuardrailsEngine,
+	injectionGuard,
+	piiGuard,
+	SelectionType,
+} from '@presidio-dev/hai-guardrails'
 
 // Create guards
 const guards = [
@@ -33,6 +79,40 @@ const engine = new GuardrailsEngine({
 const messages = [{ role: 'user', content: 'Hello, my email is john@example.com' }]
 
 const results = await engine.run(messages)
+```
+
+### Guard Configuration Note
+
+Some guards accept two parameter objects, while others accept one:
+
+- **Security guards** (injection, leakage) often take two: `(selectionOptions, guardSpecificOptions)`
+- **Privacy guards** (PII, secret) typically take one combined options object
+
+See individual guard documentation for specific parameters.
+
+### LLM Provider Setup
+
+```typescript
+import { ChatOpenAI } from '@langchain/openai'
+
+// Option 1: Using LangChain provider
+const llmProvider = new ChatOpenAI({
+	apiKey: process.env.OPENAI_API_KEY,
+	modelName: 'gpt-4',
+})
+
+// Option 2: Using custom provider function
+const customLLMProvider = async (messages: LLMMessage[]): Promise<LLMMessage[]> => {
+	// Your custom LLM implementation
+	const response = await callYourLLM(messages)
+	return response
+}
+
+// Pass to engine or individual guards
+const engine = new GuardrailsEngine({
+	guards: [toxicGuard({ threshold: 0.8, llm: llmProvider })],
+	llm: llmProvider, // Optional: provides default LLM for all guards
+})
 ```
 
 ### Comprehensive Protection
@@ -162,6 +242,31 @@ When you run the engine, the results tell you:
 - Whether any guards blocked or modified messages
 - Why each guard made its decision
 
+### Understanding the "passed" Field
+
+The `passed` field can be confusing because its meaning depends on the guard's mode:
+
+- **Block mode**: `passed: false` means the guard detected an issue and blocked the message
+- **Redact mode**: `passed: true` means the guard allowed the message to continue (even if modified)
+- **Detection only**: `passed: true/false` indicates whether the content meets the guard's criteria
+
+```typescript
+// PII Guard in redact mode
+piiGuard({ mode: 'redact' })  // Returns passed: true but modifies content
+
+// PII Guard in block mode
+piiGuard({ mode: 'block' })   // Returns passed: false if PII detected
+
+// Example results
+{
+  "passed": true,    // Message allowed to continue
+  "reason": "Input contains possible PII",
+  "modifiedMessage": { // But content was modified
+    "content": "Hello, my email is [REDACTED-EMAIL]"
+  }
+}
+```
+
 ### Example Result
 
 ```json
@@ -278,6 +383,39 @@ const messages = [
 // Secret Guard modifies: "My email is [REDACTED-EMAIL] and my password is [REDACTED]"
 ```
 
+## Handling Blocked Messages
+
+When a guard blocks a message (`passed: false`), you need to decide how to handle it in your application:
+
+```typescript
+const results = await engine.run(messages)
+
+// Check if any messages were blocked
+const blockedGuards = results.messagesWithGuardResult
+	.filter(({ messages }) => messages.some((m) => !m.passed))
+	.map(({ guardId, guardName, messages }) => ({
+		guardId,
+		guardName,
+		reasons: messages.filter((m) => !m.passed).map((m) => m.reason),
+	}))
+
+if (blockedGuards.length > 0) {
+	// Option 1: Throw an error
+	throw new Error(`Message blocked by guards: ${JSON.stringify(blockedGuards)}`)
+
+	// Option 2: Return error response
+	return {
+		success: false,
+		error: 'Message contains prohibited content',
+		details: blockedGuards,
+	}
+
+	// Option 3: Log and continue with modified messages
+	console.warn('Guards blocked content:', blockedGuards)
+	// Use results.messages which may have redacted content
+}
+```
+
 ## Error Handling
 
 The engine continues processing even if individual guards encounter errors. Guards that fail will not modify messages, and the engine will proceed to the next guard.
@@ -290,6 +428,27 @@ results.messagesWithGuardResult.forEach(({ guardId, guardName, messages }) => {
 	messages.forEach((result) => {
 		if (result.additionalFields?.error) {
 			console.warn(`Guard ${guardName} encountered an error:`, result.additionalFields.error)
+		}
+	})
+})
+```
+
+### Guard Failures vs Blocked Messages
+
+- **Guard failure**: Technical error (e.g., LLM timeout, invalid configuration)
+- **Blocked message**: Guard successfully detected prohibited content
+
+```typescript
+// Distinguish between failures and blocks
+const failures = []
+const blocks = []
+
+results.messagesWithGuardResult.forEach(({ guardId, guardName, messages }) => {
+	messages.forEach((result) => {
+		if (result.additionalFields?.error) {
+			failures.push({ guardId, error: result.additionalFields.error })
+		} else if (!result.passed) {
+			blocks.push({ guardId, reason: result.reason })
 		}
 	})
 })
@@ -344,6 +503,74 @@ const engine = isUserContent ? userContentEngine : systemEngine
 const results = await engine.run(messages)
 ```
 
+## Common Questions
+
+### When to Enable/Disable the Engine?
+
+Use cases for disabling:
+
+- **Development/Testing**: Temporarily bypass guards during development
+- **Admin Override**: Allow trusted users to bypass guards
+- **Performance Testing**: Measure performance without guard overhead
+
+```typescript
+// Development mode
+const engine = new GuardrailsEngine({
+  guards: [...],
+  enabled: process.env.NODE_ENV === 'production'
+})
+
+// Feature flag
+if (user.isAdmin && skipGuardrails) {
+  engine.disable()
+}
+```
+
+### What is Message Hashing For?
+
+Message hashing helps with:
+
+- **Tracking**: Identify messages across guard executions
+- **Debugging**: Trace guard results back to original messages
+
+```typescript
+// Using different hash algorithms based on needs
+const engine = new GuardrailsEngine({
+  guards: [...],
+  // MD5 is faster but less secure
+  messageHashingAlgorithm: MessageHashingAlgorithm.MD5,
+  // SHA256 is more secure but slower (default)
+  // messageHashingAlgorithm: MessageHashingAlgorithm.SHA256
+})
+```
+
+### Understanding "inScope"
+
+The `inScope` field indicates whether a guard actually checked a message:
+
+```typescript
+// Guard configured to only check user messages
+const guard = injectionGuard({ roles: ['user'] })[
+	// Results for mixed messages
+	({ role: 'user', content: '...', inScope: true }, // Checked
+	{ role: 'assistant', content: '...', inScope: false }, // Skipped
+	{ role: 'system', content: '...', inScope: false }) // Skipped
+]
+```
+
+### Guard Parameter Reference
+
+Common parameters across guards:
+
+- `selection`: Which messages to check (SelectionType)
+- `roles`: Which message roles to check (['user', 'assistant', etc.])
+- `n`: Number of messages for NFirst/NLast selection
+- `threshold`: Confidence threshold (0-1) for detection
+- `mode`: Guard behavior ('block', 'redact', 'heuristic', 'pattern')
+- `llm`: LLM provider for AI-based analysis
+
+See individual guard documentation for specific parameters.
+
 ## Best Practices
 
 1. **Order Guards by Performance**: Place fast guards before slow ones
@@ -353,6 +580,8 @@ const results = await engine.run(messages)
 5. **Provide LLM for LLM-based Guards**: Ensure LLM is available when needed
 6. **Test Guard Combinations**: Validate that guards work well together
 7. **Monitor Performance**: Track execution times for optimization
+8. **Handle Blocked Messages Properly**: Provide clear error messages to users
+9. **Log Guard Activity**: Monitor which guards are blocking/modifying content
 
 ## Next Steps
 
