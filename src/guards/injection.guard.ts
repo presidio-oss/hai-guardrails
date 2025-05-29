@@ -174,15 +174,15 @@ export function injectionGuard(
 
 			const llmInstance = opts.llm ?? config.llm ?? llm
 			const tactics = {
-				heuristic: async () => heuristicInjectionTactic.execute(input),
-				pattern: async () => patternInjectionTactic.execute(input),
+				heuristic: async () => heuristicInjectionTactic.execute(input, extra.threshold),
+				pattern: async () => patternInjectionTactic.execute(input, extra.threshold),
 				'language-model': async () => {
 					if (!llmInstance)
 						return {
 							score: 0,
 							additionalFields: {},
 						}
-					return languageModelInjectionTactic(llmInstance).execute(input)
+					return languageModelInjectionTactic(llmInstance).execute(input, extra.threshold)
 				},
 			}
 

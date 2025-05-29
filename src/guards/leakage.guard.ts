@@ -95,15 +95,15 @@ export function leakageGuard(
 
 			const llmInstance = opts.llm ?? config.llm ?? llm
 			const tactics = {
-				heuristic: async () => heuristicLeakingTactic.execute(input),
-				pattern: async () => patternLeakingTactic.execute(input),
+				heuristic: async () => heuristicLeakingTactic.execute(input, extra.threshold),
+				pattern: async () => patternLeakingTactic.execute(input, extra.threshold),
 				'language-model': async () => {
 					if (!llmInstance)
 						return {
 							score: 0,
 							additionalFields: {},
 						}
-					return languageModelLeakingTactic(llmInstance).execute(input)
+					return languageModelLeakingTactic(llmInstance).execute(input, extra.threshold)
 				},
 			}
 
