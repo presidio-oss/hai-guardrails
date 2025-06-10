@@ -31,15 +31,18 @@ import {
  * @property {boolean} options.singleLine - Force single-line output
  */
 const DEFAULT_TRANSPORT_OPTIONS = {
-	target: 'pino-pretty',
-	options: {
-		colorize: true,
-		translateTime: 'SYS:standard',
-		ignore: 'pid,hostname',
-		levelFirst: true,
-		hideObjects: false,
-		singleLine: false,
-	},
+	target: process.env.NODE_ENV === 'development' ? 'pino-pretty' : 'pino',
+	options:
+		process.env.NODE_ENV === 'development'
+			? {
+					colorize: true,
+					translateTime: 'SYS:standard',
+					ignore: 'pid,hostname',
+					levelFirst: true,
+					hideObjects: false,
+					singleLine: false,
+				}
+			: {},
 }
 
 /**
