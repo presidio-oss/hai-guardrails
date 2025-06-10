@@ -7,7 +7,7 @@ const defaultBuildConfig: BuildConfig = {
 	entrypoints: ['./src/index.ts'],
 	outdir: './dist',
 	target: 'node',
-	external: ['@langchain/core', 'pino', 'pino-pretty'],
+	external: ['@langchain/core', 'pino'],
 	define: {
 		'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
 	},
