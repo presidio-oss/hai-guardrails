@@ -63,7 +63,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
 
           # Build
-          bun run build
+          bun run build --production
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
