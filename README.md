@@ -1133,7 +1133,7 @@ For detailed development setup instructions, please refer to our [Development Se
 3. **Build the Project**
 
    ```bash
-   bun run build
+   bun run build --production
    ```
 
 4. **Format Code**
