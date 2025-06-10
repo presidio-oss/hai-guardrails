@@ -5,8 +5,7 @@
       "name": "@presidio-dev/hai-guardrails",
       "dependencies": {
         "jsonrepair": "^3.12.0",
-        "pino": "^9.6.0",
-        "pino-pretty": "^13.0.0",
+        "pino": "^9.7.0",
         "string-similarity": "^4.0.4",
         "ts-pattern": "^5.7.1",
         "zod": "^3.25.0-beta.20250519T094321",
@@ -16,12 +15,12 @@
         "@commitlint/config-conventional": "^19.8.0",
         "@release-it/conventional-changelog": "^10.0.1",
         "@types/bun": "^1.2.11",
-        "@types/pino": "^7.0.5",
         "@types/string-similarity": "^4.0.2",
         "bun-plugin-dts": "^0.3.0",
         "husky": "^9.1.7",
         "knip": "^5.56.0",
         "lint-staged": "^16.0.0",
+        "pino-pretty": "^13.0.0",
         "prettier": "^3.5.3",
         "release-it": "^19.0.1",
       },
@@ -189,8 +188,6 @@
     "@types/normalize-package-data": ["@types/normalize-package-data@2.4.4", "", {}, "sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA=="],
 
     "@types/parse-path": ["@types/parse-path@7.1.0", "", { "dependencies": { "parse-path": "*" } }, "sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q=="],
-
-    "@types/pino": ["@types/pino@7.0.5", "", { "dependencies": { "pino": "*" } }, "sha512-wKoab31pknvILkxAF8ss+v9iNyhw5Iu/0jLtRkUD74cNfOOLJNnqfFKAv0r7wVaTQxRZtWrMpGfShwwBjOcgcg=="],
 
     "@types/retry": ["@types/retry@0.12.0", "", {}, "sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA=="],
 

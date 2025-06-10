@@ -139,7 +139,7 @@ We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for deta
 git clone https://github.com/presidio-oss/hai-guardrails.git
 cd hai-guardrails
 bun install
-bun run build
+bun run build --production
 ```
 
 ## 📄 License
