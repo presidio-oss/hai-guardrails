@@ -31,7 +31,7 @@ import {
  * @property {boolean} options.singleLine - Force single-line output
  */
 const DEFAULT_TRANSPORT_OPTIONS = {
-	target: process.env.NODE_ENV === 'development' ? 'pino-pretty' : 'pino',
+	target: process.env.NODE_ENV === 'development' ? 'pino-pretty' : undefined,
 	options:
 		process.env.NODE_ENV === 'development'
 			? {
