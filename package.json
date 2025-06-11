@@ -41,7 +41,7 @@
 	"author": "Presidio",
 	"scripts": {
 		"build": "bun run build.ts",
-		"prepublishOnly": "bun run build",
+		"prepublishOnly": "bun run build --production",
 		"prepare": "husky",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
