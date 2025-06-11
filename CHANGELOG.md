@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.10.1-rc.4](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.3...v1.10.1-rc.4) (2025-06-11)
+
 ## [1.10.1-rc.3](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.2...v1.10.1-rc.3) (2025-06-11)
 
 
