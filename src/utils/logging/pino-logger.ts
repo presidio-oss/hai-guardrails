@@ -176,7 +176,7 @@ export class PinoLogger extends AbstractLogger {
 export const createPinoLogger = (
 	options: PinoLoggerOptions = {
 		logLevel: DEFAULT_LOG_LEVEL,
-		transport: DEFAULT_TRANSPORT_OPTIONS,
+		transport: process.env.NODE_ENV === 'development' ? DEFAULT_TRANSPORT_OPTIONS : undefined,
 	}
 ): LoggerContract => {
 	return new PinoLogger(options)
