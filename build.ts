@@ -4,7 +4,7 @@ import dts from 'bun-plugin-dts'
 const production = process.argv.includes('--production')
 
 const defaultBuildConfig: BuildConfig = {
-	entrypoints: ['./src/index.ts'],
+	entrypoints: ['./src/index.ts', './src/workers/heuristic.worker.ts'],
 	outdir: './dist',
 	target: 'node',
 	external: ['@langchain/core', 'pino'],
