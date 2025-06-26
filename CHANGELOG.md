@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.11.0-rc.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.2...v1.11.0-rc.0) (2025-06-26)
+
+
+### Bug Fixes
+
+* Removed pino type which is included default in pino and pino-pretty moved to dev dependencies which is not required in production env to avoid memory and cpu utilization ([#46](https://github.com/presidio-oss/hai-guardrails/issues/46)) ([d14f985](https://github.com/presidio-oss/hai-guardrails/commit/d14f985e114529180d6a9b45bf6ac1aee97b3c79))
+
+
+### Features
+
+* Heuristic tactics to be validated using workers for high performance ([#64](https://github.com/presidio-oss/hai-guardrails/issues/64)) ([bafcf63](https://github.com/presidio-oss/hai-guardrails/commit/bafcf63e21bdb871863480ffd236a985fb2bb246))
+
 ## [1.10.1-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0...v1.10.1-rc.2) (2025-06-10)
 
 # [1.10.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.3...v1.10.0) (2025-05-22)
