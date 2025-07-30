@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Features
+
+* **pii-guard:** extended healthcare identifier detection support along with existing PII patterns. It includes ICD-10 medical diagnosis codes, Medical Record Numbers (MRN), National Provider Identifiers (NPI), and DEA numbers. Maintains full backward compatibility with existing PII guard usage. ([#74](https://github.com/presidio-oss/hai-guardrails/issues/74))
+
 ## [1.10.1-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0...v1.10.1-rc.2) (2025-06-10)
 
 # [1.10.0](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0-rc.3...v1.10.0) (2025-05-22)
