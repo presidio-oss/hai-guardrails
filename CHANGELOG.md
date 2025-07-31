@@ -1,10 +1,15 @@
 # Changelog
 
-## [Unreleased]
+## [1.10.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.4...v1.10.1) (2025-06-12)
 
-### Features
+## [1.10.1-rc.4](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.3...v1.10.1-rc.4) (2025-06-11)
 
-* **pii-guard:** extended healthcare identifier detection support along with existing PII patterns. It includes ICD-10 medical diagnosis codes, Medical Record Numbers (MRN), National Provider Identifiers (NPI), and DEA numbers. Maintains full backward compatibility with existing PII guard usage. ([#74](https://github.com/presidio-oss/hai-guardrails/issues/74))
+## [1.10.1-rc.3](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.2...v1.10.1-rc.3) (2025-06-11)
+
+
+### Bug Fixes
+
+* Removed pino type which is included default in pino and pino-pretty moved to dev dependencies which is not required in production env to avoid memory and cpu utilization ([#46](https://github.com/presidio-oss/hai-guardrails/issues/46)) ([d14f985](https://github.com/presidio-oss/hai-guardrails/commit/d14f985e114529180d6a9b45bf6ac1aee97b3c79))
 
 ## [1.10.1-rc.2](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.0...v1.10.1-rc.2) (2025-06-10)
 
