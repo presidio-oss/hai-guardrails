@@ -37,6 +37,7 @@ error TS2307: Cannot find module '@presidio-dev/hai-guardrails'
    ```
 
 3. Clear TypeScript cache:
+
    ```bash
    rm -rf node_modules/.cache
    npx tsc --build --clean
