@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1...v1.11.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* Hotfix for version update ([9bfc68b](https://github.com/presidio-oss/hai-guardrails/commit/9bfc68bdf10798da9cb1ad4cdab1d3b7984d4734))
+
 ## [1.10.1](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.4...v1.10.1) (2025-06-12)
 
 ## [1.10.1-rc.4](https://github.com/presidio-oss/hai-guardrails/compare/v1.10.1-rc.3...v1.10.1-rc.4) (2025-06-11)
