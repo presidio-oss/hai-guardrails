@@ -79,7 +79,7 @@
 		"piscina": "^5.1.1",
 		"string-similarity": "^4.0.4",
 		"ts-pattern": "^5.7.1",
-		"zod": "^3.25.0-beta.20250519T094321"
+		"zod": "^4.0.17"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,jsx,tsx,json,css,md}": "prettier --write"
