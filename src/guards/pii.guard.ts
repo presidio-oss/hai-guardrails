@@ -39,18 +39,47 @@ const PII_REGEX_REGISTRY = [
 		replacement: '[REDACTED-CREDIT-CARD]',
 	},
 	{
-		id: 'credit-card',
-		name: 'Credit Card',
-		description: 'Credit Card Numbers',
-		regex: /\b\d{4}[-.]?\d{4}[-.]?\d{4}[-.]?\d{4}\b/g,
-		replacement: '[REDACTED-CREDIT-CARD]',
-	},
-	{
 		id: 'ip-address',
 		name: 'IP Address',
 		description: 'IP Addresses',
 		regex: /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g,
 		replacement: '[REDACTED-IP-ADDRESS]',
+	},
+	// Healthcare Identifiers
+	{
+		id: 'icd10',
+		name: 'ICD-10 Code',
+		description: 'ICD-10 medical diagnosis codes',
+		regex: /\b[A-TV-Z][0-9]{2}(\.[0-9A-TV-Z]{1,4})?\b/g,
+		replacement: '[REDACTED-ICD10]',
+	},
+	{
+		id: 'mrn-numeric',
+		name: 'Medical Record Number',
+		description: 'Numeric medical record numbers (7-10 digits)',
+		regex: /\b(MRN?[-:]?\s*)?[0-9]{7,10}\b/gi,
+		replacement: '[REDACTED-MRN]',
+	},
+	{
+		id: 'mrn-alphanumeric',
+		name: 'Medical Record Number',
+		description: 'Alphanumeric medical record numbers with prefix',
+		regex: /\b(MR|MRN|MEDICAL\s*RECORD)[-:\s]*[A-Z0-9]{6,12}\b/gi,
+		replacement: '[REDACTED-MRN]',
+	},
+	{
+		id: 'npi',
+		name: 'NPI Number',
+		description: 'National Provider Identifier (10 digits)',
+		regex: /\bNPI[-:\s]*[0-9]{10}\b/gi,
+		replacement: '[REDACTED-NPI]',
+	},
+	{
+		id: 'dea',
+		name: 'DEA Number',
+		description: 'Drug Enforcement Administration numbers',
+		regex: /\bDEA[-:\s]*[A-Z]{2}[0-9]{7}\b/gi,
+		replacement: '[REDACTED-DEA]',
 	},
 ] satisfies PIIRegex[]
 
