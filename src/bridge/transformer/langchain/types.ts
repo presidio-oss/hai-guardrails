@@ -2,11 +2,10 @@ import type { LLMMessage } from '@hai-guardrails/types'
 import type { BaseLanguageModelInput } from '@langchain/core/language_models/base'
 import {
 	BaseMessage,
+	ContentBlock,
 	type BaseMessageFields,
 	type BaseMessageLike,
 	type MessageContent,
-	type MessageContentComplex,
-	type MessageContentText,
 	type MessageFieldWithRole,
 	type MessageType,
 } from '@langchain/core/messages'
@@ -40,13 +39,13 @@ export enum BaseMessageLikeTypeEnum {
 export { BaseMessage as LangChainBaseMessage }
 export type ILangChainBaseLanguageModelInput = BaseLanguageModelInput
 export type ILangChainBaseMessageLike = BaseMessageLike
-export type ILangChainMessageContent = MessageContent
-export type ILangChainMessageContentComplex = MessageContentComplex
-export type ILangChainMessageContentText = MessageContentText
+export type ILangChainMessageContent = string | (ContentBlock | ContentBlock.Text)[]
+export type ILangChainMessageContentComplex = ContentBlock
+export type ILangChainMessageContentText = ContentBlock.Text
 export type ILangChainBaseMessage = BaseMessage
 export type ILangChainMessageFieldWithRole = MessageFieldWithRole
 export type ILangChainBaseMessageTuple = [string, MessageContent]
-export type ILangChainBaseMessageWithType = { type: MessageType } & BaseMessageFields
+export type ILangChainBaseMessageWithType = { type: MessageType } & Required<BaseMessageFields>
 export type ILangChainBaseMessageStringType = string
 export type ILangChainBasePromptValueInterface = BasePromptValueInterface
 

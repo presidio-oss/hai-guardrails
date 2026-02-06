@@ -70,7 +70,7 @@
 		"pino-pretty": "^13.0.0"
 	},
 	"peerDependencies": {
-		"@langchain/core": "^0.3.49",
+		"@langchain/core": "^1.1.19",
 		"typescript": "^5"
 	},
 	"dependencies": {
