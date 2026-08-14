@@ -2,13 +2,19 @@ import stringSimilarity from 'string-similarity'
 import { TacticName, type Tactic, type TacticExecution } from '@hai-guardrails/types'
 import { normalizeString } from '@hai-guardrails/utils/util'
 import Piscina from 'piscina'
-import { dirname, resolve } from 'path'
+import { createRequire } from 'module'
 import { cpus } from 'os'
-import { fileURLToPath } from 'url'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const workerPath = resolve(__dirname, '../workers/heuristic.worker.mjs')
+// Resolve the heuristic worker relative to the current module so the path works in
+// both published bundles:
+// - ESM (dist/index.js): createRequire(import.meta.url) resolves against the runtime file.
+// - CJS (dist/index.cjs): the native require resolves against the runtime module.
+// A variable specifier (not a literal) is required so Bun keeps the resolution
+// runtime-based in the CJS build instead of baking the source path at build time.
+declare const require: NodeRequire | undefined
+const require_ = typeof require === 'function' ? require : createRequire(import.meta.url)
+const workerSpecifier = './workers/heuristic.worker.js'
+const workerPath = require_.resolve(workerSpecifier)
 
 /**
  * Heuristic tactic: fuzzy matching and word overlap with known injection keywords.

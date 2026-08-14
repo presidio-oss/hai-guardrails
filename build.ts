@@ -7,7 +7,7 @@ const defaultBuildConfig: BuildConfig = {
 	entrypoints: ['./src/index.ts', './src/workers/heuristic.worker.ts'],
 	outdir: './dist',
 	target: 'node',
-	external: ['@langchain/core', 'pino'],
+	external: ['@langchain/core', 'pino', 'piscina'],
 	define: {
 		'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
 	},
