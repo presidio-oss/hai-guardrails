@@ -111,7 +111,10 @@ export function leakageGuard(
 				extra.mode in tactics ? await tactics[extra.mode]() : { score: 0, additionalFields: {} }
 			return {
 				...common,
-				passed: result.score < extra.threshold,
+				passed:
+					!llmInstance && extra.mode === 'language-model'
+						? !extra.failOnError
+						: result.score < extra.threshold,
 				reason:
 					!llmInstance && extra.mode === 'language-model'
 						? 'Please provide a language model or change the mode to heuristic or pattern'
